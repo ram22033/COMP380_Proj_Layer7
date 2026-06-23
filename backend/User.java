@@ -1,18 +1,19 @@
 
+public class User {
+
 public enum Role {
     USER, ADMIN
 }
-
-
-public class User {
     private String userName;
     private String password;
     private Role role;
+    private double balance;
+    private String email;
     
     public User(String username, String password, Role role){
-        this.username = username;
+        this.userName = username;
         this.password = password;
-        this.Role = role;
+        this.role = role;
     }
 
     public boolean isAdmin() {
@@ -20,12 +21,21 @@ public class User {
     }
 
     public String getusername() {
-        return username;
+        return userName;
     }
 
-    public void setPassword(string newPassword){
+    public void setPassword(String newPassword){
         this.password = newPassword;
     }
+
+    public void setBalance(double newBalance){
+        this.balance = newBalance;
+    }
+
+    public void setEmail(String newEmail){
+        this.email = newEmail;
+    }
+
 
 
 }
