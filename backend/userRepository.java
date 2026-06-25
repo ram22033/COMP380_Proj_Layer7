@@ -1,13 +1,23 @@
 import java.util.ArrayList;
 
-public class userRepository {
+public class UserRepository {
     private ArrayList<User> users = new ArrayList<>();
 
-    public void addUser(User user){
+    public void addUser(User user){ // Adding a new user
         users.add(user);
     }
 
-    // Need a good search algorithm for public User findUser
-    // Need a way to list all of the users
+    public ArrayList<User> getAllUsers() { // Show all users
+        return users;
+    }
+    
+    public User findUser(String username) { // Finding specific user
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
     
 }

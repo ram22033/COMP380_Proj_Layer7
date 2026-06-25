@@ -1,9 +1,4 @@
-
 public class User {
-
-public enum Role {
-    USER, ADMIN
-}
     private String userName;
     private String password;
     private Role role;
@@ -20,7 +15,7 @@ public enum Role {
         return role == Role.ADMIN;
     }
 
-    public String getusername() {
+    public String getUsername() {
         return userName;
     }
 
@@ -36,6 +31,25 @@ public enum Role {
         this.email = newEmail;
     }
 
+    public void setRole(Role newRole){
+        this.role = newRole;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 
 
 }
