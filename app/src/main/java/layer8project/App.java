@@ -38,6 +38,7 @@ public class App {
         ImageIcon bg = new ImageIcon(App.class.getResource("/Images/Logo.png"));
         JLabel background = new JLabel(bg);
 
+
         background.setBounds(1,1,20, 20);
         frame.add(background);
 
