@@ -33,6 +33,13 @@ public class App {
         //The creation of the panel allows us to edit anything inside the frame
         // and the setLayout allows us to stack them vertically  
 
+        JPanel formPanel = new JPanel();
+        formPanel.setBackground(new Color(30,30,30));
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        formPanel.setMaximumSize(new Dimension(300,250));
+
+
         ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
         Image scaled = logo.getImage().getScaledInstance(250,120,Image.SCALE_SMOOTH);
         // This loads the image saved under Logo.png and resizes it so its 250x120
@@ -46,38 +53,44 @@ public class App {
         //pane.add(background) puts the logo inside the panel that we added above 
         //createVerticalStrut creates a set amount of pixels of empty spaces
 
+
+        panel.add(formPanel);
+        panel.add(Box.createVerticalStrut(30));
+
         JLabel username = new JLabel("Username");
         username.setForeground(Color.WHITE);
-        username.setAlignmentX(Component.CENTER_ALIGNMENT);
+        username.setAlignmentX(Component.LEFT_ALIGNMENT);
         //Creation of the username
         //setForeground makes the text white 
         //setAlignment centers the word "Username"
 
         JTextField usernamefield = new JTextField();
         usernamefield.setMaximumSize(new Dimension(300,40));
+        usernamefield.setAlignmentX(Component.LEFT_ALIGNMENT);
         // This creates the space where the user types
         //setMaximumSize creates the size of the textbox
 
-        panel.add(username);
-        panel.add(Box.createVerticalStrut(5));
-        panel.add(usernamefield);
-        panel.add(Box.createVerticalStrut(20));
+        formPanel.add(username);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(usernamefield);
+        formPanel.add(Box.createVerticalStrut(20));
         // This adds the username and password into the panel
 
         JLabel password = new JLabel("Password");
         password.setForeground(Color.WHITE);
-        password.setAlignmentX(Component.CENTER_ALIGNMENT);
+        password.setAlignmentX(Component.LEFT_ALIGNMENT);
         // The password label is created 
         //setForeground makes the text white and setAlignment centers it
 
         JPasswordField passwordField = new JPasswordField();
         passwordField.setMaximumSize(new Dimension(300,40));
+        passwordField.setAlignmentX(Component.LEFT_ALIGNMENT);
         //Creates the password box and rathern than showing the letters it comes out as *
 
-        panel.add(password);
-        panel.add(Box.createVerticalStrut(5));
-        panel.add(passwordField);
-        panel.add(Box.createVerticalStrut(10));
+        formPanel.add(password);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(passwordField);
+        formPanel.add(Box.createVerticalStrut(10));
         // Same thing with the usernamefield, it adds on them on the panel
 
         JButton forgot = new JButton("Forgot Password?");
@@ -88,8 +101,8 @@ public class App {
         //setBorderPainted(false); makes it so that the border around the forgot button is hidden
         //setContentAreaFilled(false); removes the background of the button
 
-        panel.add(forgot);
-        panel.add(Box.createVerticalStrut(30));
+        formPanel.add(forgot);
+        formPanel.add(Box.createVerticalStrut(30));
         //Creation of a box where the User can put the password for their account
 
         JButton ForgotUser = new JButton ("Forgot Username?");
@@ -98,8 +111,8 @@ public class App {
         ForgotUser.setForeground(new Color(0,120,225));
         ForgotUser.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        panel.add(ForgotUser);
-        panel.add(Box.createVerticalStrut(30));
+        formPanel.add(ForgotUser);
+        formPanel.add(Box.createVerticalStrut(30));
 
         JButton login = new JButton("LOGIN");
         login.setBackground(new Color(0,120,255));
