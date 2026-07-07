@@ -80,7 +80,7 @@ public class App {
         panel.add(Box.createVerticalStrut(10));
         // Same thing with the usernamefield, it adds on them on the panel
 
-        JButton forgot = new JButton("Forgot Password");
+        JButton forgot = new JButton("Forgot Password?");
         forgot.setBorderPainted(false);
         forgot.setContentAreaFilled(false);
         forgot.setForeground(new Color(0,120,255));
@@ -91,6 +91,15 @@ public class App {
         panel.add(forgot);
         panel.add(Box.createVerticalStrut(30));
         //Creation of a box where the User can put the password for their account
+
+        JButton ForgotUser = new JButton ("Forgot Username?");
+        ForgotUser.setBorderPainted(false);
+        ForgotUser.setContentAreaFilled(false);
+        ForgotUser.setForeground(new Color(0,120,225));
+        ForgotUser.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        panel.add(ForgotUser);
+        panel.add(Box.createVerticalStrut(30));
 
         JButton login = new JButton("LOGIN");
         login.setBackground(new Color(0,120,255));
