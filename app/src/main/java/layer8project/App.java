@@ -41,7 +41,7 @@ public class App {
 
 
         ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
-        Image scaled = logo.getImage().getScaledInstance(250,120,Image.SCALE_SMOOTH);
+        Image scaled = logo.getImage().getScaledInstance(250,200,Image.SCALE_SMOOTH);
         // This loads the image saved under Logo.png and resizes it so its 250x120
 
 
