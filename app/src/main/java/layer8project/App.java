@@ -41,7 +41,7 @@ public class App {
 
 
         ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
-        Image scaled = logo.getImage().getScaledInstance(250,200,Image.SCALE_SMOOTH);
+        Image scaled = logo.getImage().getScaledInstance(300,150,Image.SCALE_SMOOTH);
         // This loads the image saved under Logo.png and resizes it so its 250x120
 
 
@@ -75,6 +75,15 @@ public class App {
         formPanel.add(usernamefield);
         formPanel.add(Box.createVerticalStrut(20));
         // This adds the username and password into the panel
+        
+        JButton ForgotUser = new JButton ("Forgot Username?");
+        ForgotUser.setBorderPainted(false);
+        ForgotUser.setContentAreaFilled(false);
+        ForgotUser.setForeground(new Color(0,120,225));
+        ForgotUser.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        formPanel.add(ForgotUser);
+        formPanel.add(Box.createVerticalStrut(30));
 
         JLabel password = new JLabel("Password");
         password.setForeground(Color.WHITE);
@@ -105,14 +114,7 @@ public class App {
         formPanel.add(Box.createVerticalStrut(30));
         //Creation of a box where the User can put the password for their account
 
-        JButton ForgotUser = new JButton ("Forgot Username?");
-        ForgotUser.setBorderPainted(false);
-        ForgotUser.setContentAreaFilled(false);
-        ForgotUser.setForeground(new Color(0,120,225));
-        ForgotUser.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        formPanel.add(ForgotUser);
-        formPanel.add(Box.createVerticalStrut(30));
 
         JButton login = new JButton("LOGIN");
         login.setBackground(new Color(0,120,255));
