@@ -49,13 +49,13 @@ public class App {
         background.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         panel.add(background);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(Box.createVerticalStrut(5));
         //pane.add(background) puts the logo inside the panel that we added above 
         //createVerticalStrut creates a set amount of pixels of empty spaces
 
 
         panel.add(formPanel);
-        panel.add(Box.createVerticalStrut(30));
+        panel.add(Box.createVerticalStrut(5));
 
         JLabel username = new JLabel("Username");
         username.setForeground(Color.WHITE);
@@ -73,7 +73,7 @@ public class App {
         formPanel.add(username);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(usernamefield);
-        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(Box.createVerticalStrut(5));
         // This adds the username and password into the panel
         
         JButton ForgotUser = new JButton ("Forgot Username?");
@@ -83,7 +83,7 @@ public class App {
         ForgotUser.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         formPanel.add(ForgotUser);
-        formPanel.add(Box.createVerticalStrut(30));
+        formPanel.add(Box.createVerticalStrut(5));
 
         JLabel password = new JLabel("Password");
         password.setForeground(Color.WHITE);
@@ -99,7 +99,7 @@ public class App {
         formPanel.add(password);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(passwordField);
-        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(Box.createVerticalStrut(5));
         // Same thing with the usernamefield, it adds on them on the panel
 
         JButton forgot = new JButton("Forgot Password?");
@@ -111,12 +111,12 @@ public class App {
         //setContentAreaFilled(false); removes the background of the button
 
         formPanel.add(forgot);
-        formPanel.add(Box.createVerticalStrut(30));
+        formPanel.add(Box.createVerticalStrut(5));
         //Creation of a box where the User can put the password for their account
 
 
 
-        JButton login = new JButton("LOGIN");
+        JButton login = new JButton("Login");
         login.setBackground(new Color(0,120,255));
         login.setForeground(Color.BLACK);
         login.setFocusPainted(false);
@@ -127,6 +127,15 @@ public class App {
 
         panel.add(login);
         //Creation of a Login button
+
+        JButton signup = new JButton("Sign Up");
+        signup.setBackground(new Color(0,120,225));
+        signup.setForeground(Color.black);
+        signup.setFocusPainted(false);
+        signup.setMaximumSize(new Dimension(300,45));
+        signup.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panel.add(signup);
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
