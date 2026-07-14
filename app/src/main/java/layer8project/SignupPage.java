@@ -5,9 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class SignupPage { 
 
@@ -31,9 +34,34 @@ public class SignupPage {
         formPanel.setBackground(new Color(30,30,30));
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        formPanel.setMaximumSize(new Dimension(300,250));        
+        formPanel.setMaximumSize(new Dimension(400,250));  
+        
+        panel.add(formPanel);
+        panel.add(Box.createVerticalStrut(5));
+        
+        JLabel account = new JLabel("Create Account");
+        account.setForeground(Color.WHITE);
+        account.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JTextField accountfield = new JTextField(25);
+        accountfield.setMaximumSize(new Dimension(400,40));
+        accountfield.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        formPanel.add(account);
+        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(accountfield);
+        formPanel.add(Box.createVerticalStrut(10));
+
+
+
+
+
+
+
+
 
         frame.setLocationRelativeTo(null);
+        frame.add(panel);
         frame.setVisible(true);
 
 
