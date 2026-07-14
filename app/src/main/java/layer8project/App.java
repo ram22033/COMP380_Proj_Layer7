@@ -12,6 +12,7 @@ import java.awt.*;
 public class App {
     
     public static void main(String[] args) {
+
         JFrame frame = new JFrame ("Layer 8");
         // ^ "JFrame" helps us creates a window for our app based program
         // (title:"Layer 8"); is title of the app
@@ -136,6 +137,11 @@ public class App {
         signup.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         panel.add(signup);
+
+        signup.addActionListener(e -> {
+            frame.dispose();
+            new SignupPage();
+        });
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
