@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +38,17 @@ public class SignupPage {
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         formPanel.setMaximumSize(new Dimension(400,250));  
         
+        ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
+        Image scaled = logo.getImage().getScaledInstance(300,150,Image.SCALE_SMOOTH);
+        // This loads the image saved under Logo.png and resizes it so its 250x120
+
+
+        JLabel background = new JLabel(new ImageIcon(scaled));
+        background.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panel.add(background);
+        panel.add(Box.createVerticalStrut(5));
+
         panel.add(formPanel);
         panel.add(Box.createVerticalStrut(5));
         
@@ -52,13 +65,18 @@ public class SignupPage {
         formPanel.add(accountfield);
         formPanel.add(Box.createVerticalStrut(10));
 
+        JLabel password = new JLabel("Create Password");
+        password.setForeground(Color.WHITE);
+        password.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        JTextField passwordfield = new JTextField(25);
+        passwordfield.setMaximumSize(new Dimension(400,25));
+        passwordfield.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-
-
-
-
-
+        formPanel.add(password);
+        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(passwordfield);
+        formPanel.add(Box.createVerticalStrut(10));
 
         frame.setLocationRelativeTo(null);
         frame.add(panel);
