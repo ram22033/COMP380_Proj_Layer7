@@ -127,6 +127,18 @@ public class App {
         // Along with the coloring, color of the text, background and restricts the sizing of the button
 
         panel.add(login);
+        UserRepository repository = new UserRepository();
+        UserManager userManager = new UserManager(repository);
+
+        login.addActionListener(e -> {
+        String loginUsername = usernamefield.getText();
+        String loginPassword = new String(passwordField.getPassword());
+        User user = userManager.userLogin(loginUsername, loginPassword);        if (user != null) {
+             JOptionPane.showMessageDialog(frame, "Login successful! Welcome, " + user.getUsername());
+         } else {
+            JOptionPane.showMessageDialog(frame, "Invalid username or password.");
+    }   
+});
         //Creation of a Login button
 
         JButton signup = new JButton("Sign Up");
