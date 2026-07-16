@@ -61,7 +61,7 @@ public class SignupPage {
         password.setForeground(Color.WHITE);
         password.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JTextField passwordfield = new JTextField(25);
+        JPasswordField passwordfield = new JPasswordField(25);
         passwordfield.setMaximumSize(new Dimension(400,25));
         passwordfield.setAlignmentX(Component.LEFT_ALIGNMENT);
         passwordfield.setForeground(Color.BLACK);
