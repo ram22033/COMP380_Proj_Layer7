@@ -62,7 +62,7 @@ public class SignupPage {
         password.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JPasswordField passwordfield = new JPasswordField(25);
-        passwordfield.setMaximumSize(new Dimension(400,25));
+        passwordfield.setMaximumSize(new Dimension(400,40));
         passwordfield.setAlignmentX(Component.LEFT_ALIGNMENT);
         passwordfield.setForeground(Color.BLACK);
 
@@ -123,12 +123,38 @@ public class SignupPage {
         formPanel.add(password);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(passwordfield);
-        formPanel.add(Box.createVerticalStrut(15));
-        formPanel.add(signupButton);
         formPanel.add(Box.createVerticalStrut(10));
+
+        JLabel confirmpassword = new JLabel("Confirm Password");
+        confirmpassword.setForeground(Color.WHITE);
+        confirmpassword.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+
+        JPasswordField confirm  = new JPasswordField(25);
+        confirm.setMaximumSize(new Dimension(400,25));
+        confirm.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        formPanel.add(confirmpassword);
+        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(confirm);
+        formPanel.add(Box.createVerticalStrut(10));
+
+
+
+        JButton createaccount = new JButton("Create Account");
+        createaccount.setBackground(new Color(0,120,225));
+        createaccount.setForeground(Color.black);
+        createaccount.setFocusPainted(false);
+        createaccount.setMaximumSize(new Dimension(300,45));
+        createaccount.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        panel.add(createaccount);
 
         frame.setLocationRelativeTo(null);
         frame.add(panel);
         frame.setVisible(true);
+
+
     }
 }
