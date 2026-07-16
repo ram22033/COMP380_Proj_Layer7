@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 public class ProfilePage {
 
-    public ProfilePage(User loggedInUser, UserManager userManager) {
+    public ProfilePage(User loggedInUser, UserManager userManager, JFrame homeFrame)  {
 
         JFrame frame = new JFrame("Profile");
         frame.setSize(800, 600);
@@ -47,6 +47,9 @@ public class ProfilePage {
         changePasswordButton.setFocusPainted(false);
         changePasswordButton.setMaximumSize(new Dimension(400, 45));
         changePasswordButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        changePasswordButton.setOpaque(true);
+        changePasswordButton.setBorderPainted(false);
+
 
         changePasswordButton.addActionListener(e -> {
             new ChangePasswordPage(loggedInUser, userManager);
@@ -57,6 +60,23 @@ public class ProfilePage {
         formPanel.add(usernameValue);
         formPanel.add(Box.createVerticalStrut(30));
         formPanel.add(changePasswordButton);
+
+        JButton backButton = new JButton("Back to Home");
+        backButton.setBackground(new Color(60, 60, 60));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setOpaque(true);
+        backButton.setBorderPainted(false);
+        backButton.setMaximumSize(new Dimension(400, 45));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        backButton.addActionListener(e -> {
+         frame.dispose();
+         homeFrame.setVisible(true);
+        });
+
+        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(backButton);      
 
         panel.add(Box.createVerticalStrut(60));
         panel.add(formPanel);

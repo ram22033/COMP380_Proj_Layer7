@@ -48,8 +48,9 @@ public class HomePage {
         profileButton.setOpaque(true);
         profileButton.setBorderPainted(false);
 
-        profileButton.addActionListener(e -> {
-            new ProfilePage(loggedInUser, userManager);
+       profileButton.addActionListener(e -> {
+        frame.setVisible(false);
+        new ProfilePage(loggedInUser, userManager, frame);
         });
 
         // Placeholder for future module grid
