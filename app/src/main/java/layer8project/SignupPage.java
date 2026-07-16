@@ -1,5 +1,6 @@
 package layer8project;
 
+import org.mindrot.jbcrypt.BCrypt;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -103,10 +104,9 @@ public class SignupPage {
         return;
     }
 
-    User newUser = new User(newUsername, newPassword, Role.USER);
+    String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+    User newUser = new User(newUsername, hashedPassword, Role.USER);
     repository.addUser(newUser);
-    javax.swing.JOptionPane.showMessageDialog(frame, "Account created! You can now log in.");
-    frame.dispose();
 });
 
     formPanel.add(signupButton);

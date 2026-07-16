@@ -1,6 +1,8 @@
 package layer8project;
+import org.mindrot.jbcrypt.BCrypt;
 public class UserManager {
     private UserRepository repository;
+
 
     public UserManager(UserRepository repository) {
         this.repository = repository;
@@ -47,12 +49,14 @@ public class UserManager {
     }
 
     public void createUser(User currentUser, User userToCreate){
-        if(!currentUser.isAdmin()){
-            System.out.println("Access Denied");
-            return;
-        }
-        repository.addUser(userToCreate);
+    if(!currentUser.isAdmin()){
+        System.out.println("Access Denied");
+        return;
     }
+    String hashedPassword = BCrypt.hashpw(userToCreate.getPassword(), BCrypt.gensalt());
+    userToCreate.setPassword(hashedPassword);
+    repository.addUser(userToCreate);
+}
 
     public void deleteUser(User currentUser, User userToDelete){
         if(!currentUser.isAdmin()){
@@ -71,15 +75,15 @@ public class UserManager {
     }
 
     public User userLogin(String userName, String password){
-        User user = repository.findUser(userName);
-        if(user == null){ // if user does not exist
-            return null;
-        }
-        if(!user.getPassword().equals(password)){ // if password is incorrect
-            return null;
-        }
-        return user; // return user if login is successful
+    User user = repository.findUser(userName);
+    if(user == null){
+        return null;
     }
+    if(!BCrypt.checkpw(password, user.getPassword())){
+        return null;
+    }
+    return user;
+}
 
     public User findUser(String userName){
         return repository.findUser(userName);
