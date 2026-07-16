@@ -80,10 +80,25 @@ public class UserRepository {
                 user.setEmail(rs.getString("email"));
                 user.setBalance(rs.getDouble("balance"));
                 return user;
+            
             }
         } catch (SQLException e) {
             System.out.println("Error finding user: " + e.getMessage());
         }
         return null;
     }
+    public boolean updatePassword(String username, String hashedPassword) {
+    try {
+        PreparedStatement stmt = connection.prepareStatement(
+            "UPDATE users SET password = ? WHERE username = ?"
+        );
+        stmt.setString(1, hashedPassword);
+        stmt.setString(2, username);
+        int rowsAffected = stmt.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        System.out.println("Error updating password: " + e.getMessage());
+        return false;
+    }
+}
 }

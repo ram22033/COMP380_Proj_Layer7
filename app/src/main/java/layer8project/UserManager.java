@@ -88,7 +88,21 @@ public class UserManager {
     public User findUser(String userName){
         return repository.findUser(userName);
     }
-
+    public boolean changeOwnPassword(User user, String currentPassword, String newPassword) {
+    // Verify current password is correct
+    if (!BCrypt.checkpw(currentPassword, user.getPassword())) {
+        return false;
+    }
+    // Hash the new password
+    String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+    // Update in database
+    boolean success = repository.updatePassword(user.getUsername(), hashedNewPassword);
+    if (success) {
+        // Update the in-memory user object too so it stays in sync
+        user.setPassword(hashedNewPassword);
+    }
+    return success;
+}
 
     
 }
