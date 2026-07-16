@@ -6,3 +6,6 @@ build
 
 # Ignore SQLite database files
 *.db
+
+# Ignore compiled class files
+app/bin/
