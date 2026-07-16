@@ -45,6 +45,8 @@ public class HomePage {
         profileButton.setFocusPainted(false);
         profileButton.setMaximumSize(new Dimension(300, 45));
         profileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        profileButton.setOpaque(true);
+        profileButton.setBorderPainted(false);
 
         profileButton.addActionListener(e -> {
             new ProfilePage(loggedInUser, userManager);
@@ -62,6 +64,8 @@ public class HomePage {
         contactButton.setFocusPainted(false);
         contactButton.setMaximumSize(new Dimension(300, 45));
         contactButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contactButton.setOpaque(true);
+        contactButton.setBorderPainted(false);
 
         // Add everything to panel
         panel.add(Box.createVerticalStrut(20));
