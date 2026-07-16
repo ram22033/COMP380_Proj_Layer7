@@ -133,11 +133,13 @@ public class App {
         login.addActionListener(e -> {
         String loginUsername = usernamefield.getText();
         String loginPassword = new String(passwordField.getPassword());
-        User user = userManager.userLogin(loginUsername, loginPassword);        if (user != null) {
-             JOptionPane.showMessageDialog(frame, "Login successful! Welcome, " + user.getUsername());
-         } else {
-            JOptionPane.showMessageDialog(frame, "Invalid username or password.");
-    }   
+        User user = userManager.userLogin(loginUsername, loginPassword);
+if (user != null) {
+    frame.dispose();
+    new HomePage(user, userManager);
+} else {
+    JOptionPane.showMessageDialog(frame, "Invalid username or password.");
+}
 });
         //Creation of a Login button
 
@@ -151,8 +153,10 @@ public class App {
         panel.add(signup);
 
         signup.addActionListener(e -> {
-            frame.dispose();
-            new SignupPage();
+        frame.setVisible(false);
+        new SignupPage(frame);
+
+
         });
 
         frame.add(panel);
