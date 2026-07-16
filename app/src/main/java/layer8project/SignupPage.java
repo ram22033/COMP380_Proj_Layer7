@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class SignupPage {
@@ -61,7 +62,7 @@ public class SignupPage {
         password.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JTextField passwordfield = new JTextField(25);
-        passwordfield.setMaximumSize(new Dimension(400, 40));
+        passwordfield.setMaximumSize(new Dimension(400,25));
         passwordfield.setAlignmentX(Component.LEFT_ALIGNMENT);
         passwordfield.setForeground(Color.BLACK);
 
@@ -125,7 +126,6 @@ public class SignupPage {
         formPanel.add(Box.createVerticalStrut(15));
         formPanel.add(signupButton);
         formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(backButton);
 
         frame.setLocationRelativeTo(null);
         frame.add(panel);
