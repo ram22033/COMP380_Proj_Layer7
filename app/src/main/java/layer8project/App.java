@@ -163,7 +163,7 @@ public class App {
         frame.setVisible(false);
         new ForgotUsername(frame, userManager);
         });
-
+        
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
