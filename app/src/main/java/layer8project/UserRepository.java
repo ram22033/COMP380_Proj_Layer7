@@ -1,7 +1,15 @@
 package layer8project;
-import org.sqlite.SQLiteDataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.sqlite.SQLiteDataSource;
+
+// This class represents a repository for managing user data in a SQLite database. It provides methods to add users, retrieve all users, find a specific user by username, and update a user's password. The class establishes a connection to the database and ensures that the necessary table for storing user information exists.
+// addUser, getAllUsers, findUser, updatePassword
 
 public class UserRepository {
     private Connection connection;

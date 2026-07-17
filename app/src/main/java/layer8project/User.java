@@ -1,4 +1,8 @@
 package layer8project;
+
+// This class represents a user in the system, encapsulating their username, password, role, balance, and email. It provides methods to access and modify these attributes while ensuring that the user's role can be checked for administrative privileges.
+// isAdmin, getUsername, setPassword, setBalance, setEmail, setRole, getEmail, getBalance, getPassword, getRole
+
 public class User {
     private String userName;
     private String password;

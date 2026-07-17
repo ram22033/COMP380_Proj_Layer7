@@ -1,5 +1,9 @@
 package layer8project;
 import org.mindrot.jbcrypt.BCrypt;
+
+// This class manages user-related operations, including changing passwords, balances, emails, promoting users to admin, banning users, creating and deleting users, resetting passwords, and handling user login. It interacts with the UserRepository to perform these operations and ensures that only users with admin privileges can perform certain actions.
+// changePassword, changeBalance, changeEmail, promoteToAdmin, banUser, createUser, deleteUser, resetPassword, userLogin, findUser, changeOwnPassword
+
 public class UserManager {
     private UserRepository repository;
 
