@@ -79,15 +79,28 @@ public class SignupPage {
         signupButton.setOpaque(true);
         signupButton.setBorderPainted(false);
 
+        JLabel confirmpassword = new JLabel("Confirm Password");
+        confirmpassword.setForeground(Color.WHITE);
+        confirmpassword.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+
+        JPasswordField confirm  = new JPasswordField(25);
+        confirm.setMaximumSize(new Dimension(400,25));
+        confirm.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         signupButton.addActionListener(e -> {
             String newUsername = accountfield.getText().trim();
-            String newPassword = passwordfield.getText().trim();
+            String newPassword = new String(passwordfield.getPassword()).trim();
+            String confirmPassword = new String(confirm.getPassword()).trim();
 
             if (newUsername.isEmpty() || newPassword.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Username and password cannot be empty.");
                 return;
             }
-
+            if (!newPassword.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(frame, "Password  do not match");
+                return;
+            }
             if (userManager.findUser(newUsername) != null) {
                 JOptionPane.showMessageDialog(frame, "Username already taken.");
                 return;
@@ -96,6 +109,7 @@ public class SignupPage {
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             User newUser = new User(newUsername, hashedPassword, Role.USER);
             repository.addUser(newUser);
+
             JOptionPane.showMessageDialog(frame, "Account created! You can now log in.");
             frame.dispose();
             loginFrame.setVisible(true);
@@ -125,36 +139,18 @@ public class SignupPage {
         formPanel.add(passwordfield);
         formPanel.add(Box.createVerticalStrut(10));
 
-        JLabel confirmpassword = new JLabel("Confirm Password");
-        confirmpassword.setForeground(Color.WHITE);
-        confirmpassword.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-
-        JPasswordField confirm  = new JPasswordField(25);
-        confirm.setMaximumSize(new Dimension(400,25));
-        confirm.setAlignmentX(Component.LEFT_ALIGNMENT);
-
         formPanel.add(confirmpassword);
         formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(confirm);
         formPanel.add(Box.createVerticalStrut(10));
 
-
-
-        JButton createaccount = new JButton("Create Account");
-        createaccount.setBackground(new Color(0,120,225));
-        createaccount.setForeground(Color.black);
-        createaccount.setFocusPainted(false);
-        createaccount.setMaximumSize(new Dimension(300,45));
-        createaccount.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-
-        panel.add(createaccount);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(signupButton);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(backButton);
 
         frame.setLocationRelativeTo(null);
         frame.add(panel);
         frame.setVisible(true);
-
-
     }
 }

@@ -134,13 +134,14 @@ public class App {
         String loginUsername = usernamefield.getText();
         String loginPassword = new String(passwordField.getPassword());
         User user = userManager.userLogin(loginUsername, loginPassword);
-if (user != null) {
-    frame.dispose();
-    new HomePage(user, userManager);
-} else {
-    JOptionPane.showMessageDialog(frame, "Invalid username or password.");
-}
-});
+        
+        if (user != null) {
+        frame.dispose();
+        new HomePage(user, userManager);
+        } else {
+        JOptionPane.showMessageDialog(frame, "Invalid username or password.");
+        }
+        });
         //Creation of a Login button
 
         JButton signup = new JButton("Sign Up");
@@ -156,15 +157,23 @@ if (user != null) {
         frame.setVisible(false);
         new SignupPage(frame);
 
-
         });
 
+        ForgotUser.addActionListener(e -> {
+        frame.setVisible(false);
+        new ForgotUsername(frame, userManager);
+        });
+
+        forgot.addActionListener(e -> {
+        frame.setVisible(false);
+        new ForgotPassword(frame, userManager);
+        });
+        
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         //frame.add(panel) adds the panel into the frame such as Logo, Username, Textbox etc
         //setLocationRelativeTo(null) centers the users screen
         //Makes the window visible
-
     }
     }
