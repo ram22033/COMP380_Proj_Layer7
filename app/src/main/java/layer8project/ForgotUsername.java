@@ -52,7 +52,7 @@ public class ForgotUsername {
         emailField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JButton nextButton = new JButton("Next");
-        nextButton.setBackground(new Color(60,60,60));
+        nextButton.setBackground(new Color(60,120,255));
         nextButton.setForeground(Color.WHITE);
         nextButton.setFocusPainted(false);
         nextButton.setMaximumSize(new Dimension(400,45));
@@ -65,18 +65,33 @@ public class ForgotUsername {
             loginFrame.setVisible(true);
         });
 
+        JButton backButton = new JButton("Back");
+        backButton.setBackground(new Color(60,60,60));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(400,45));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        backButton.setOpaque(true);
+        backButton.setBorderPainted(false);
 
-
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            loginFrame.setVisible(true);
+        });
 
         formPanel.add(newuser);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(newuserField);
-        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(email);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(emailField);
+        formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(nextButton);
-        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(backButton);
+        formPanel.add(Box.createVerticalStrut(20));
+        
 
 
 
