@@ -70,6 +70,7 @@ public class ForgotPassword {
         backButton.setFocusPainted(false);
         backButton.setMaximumSize((new Dimension(400,45)));;
         backButton.setAlignmentX((Component.LEFT_ALIGNMENT));
+        backButton.setOpaque(true);
         backButton.setBorderPainted(false);
 
         backButton.addActionListener(e -> {
@@ -86,6 +87,11 @@ public class ForgotPassword {
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(emailField);
         formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(nextButton);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(backButton);
+        formPanel.add(Box.createVerticalStrut(20));
+
 
         frame.add(panel);
         frame.setLocationRelativeTo(null);
