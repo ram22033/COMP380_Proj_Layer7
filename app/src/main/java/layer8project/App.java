@@ -163,6 +163,11 @@ public class App {
         frame.setVisible(false);
         new ForgotUsername(frame, userManager);
         });
+
+        forgot.addActionListener(e -> {
+        frame.setVisible(false);
+        new ForgotPassword(frame, userManager);
+        });
         
         frame.add(panel);
         frame.setLocationRelativeTo(null);
