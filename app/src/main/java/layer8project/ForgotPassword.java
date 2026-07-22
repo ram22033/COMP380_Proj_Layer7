@@ -42,6 +42,15 @@ public class ForgotPassword {
         newpasswordField.setMaximumSize(new Dimension(300,40));
         newpasswordField.setAlignmentX((Component.LEFT_ALIGNMENT));
 
+        //Just need to include confirm password
+        JLabel confirmpassword = new JLabel("Confirm Password");
+        confirmpassword.setForeground(Color.WHITE);
+        confirmpassword.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPasswordField confirmpasswordField = new JPasswordField();
+        confirmpasswordField.setMaximumSize(new Dimension(300,40));
+        confirmpasswordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         JLabel email = new JLabel("Enter Email");
         email.setForeground(Color.WHITE);
         email.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -62,6 +71,29 @@ public class ForgotPassword {
         nextButton.addActionListener( e-> {
             frame.dispose();
             loginFrame.setVisible(true);
+
+        String emailInput = emailField.getText().trim();
+        String newPassword = new String(newpasswordField.getPassword()).trim();
+        String confirmPassword = new String(confirmpasswordField.getPassword()).trim();
+
+            if (emailInput.isEmpty() 
+                || newPassword.isEmpty()
+                || confirmPassword.isEmpty()) { 
+                    JOptionPane.showMessageDialog(frame, "Fill in field"
+            );
+            return;
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(frame, "Password does not match"
+            );
+            return;
+        }
+            JOptionPane.showMessageDialog(frame, "Password was successfully changed"
+        );
+        frame.dispose();
+        loginFrame.setVisible(true);
+
         });
 
         JButton backButton = new JButton("Back");
@@ -82,6 +114,10 @@ public class ForgotPassword {
         formPanel.add(newpassword);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(newpasswordField);
+        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(confirmpassword);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(confirmpasswordField);
         formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(email);
         formPanel.add(Box.createVerticalStrut(5));
