@@ -1,11 +1,12 @@
 package layer8project;
-import org.sqlite.SQLiteDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.sqlite.SQLiteDataSource;
 
 // This class serves as a repository for managing questions in the database. It provides methods to add, retrieve, update, and delete both entry and multiple choice questions. The class interacts with the SQLite database to perform CRUD operations on the questions and their associated data, ensuring that questions are stored and retrieved efficiently.
 // addEntryQuestion, addMultipleChoiceQuestion, getQuestionById, getQuestionsBySubModuleId, updateEntryQuestion, updateMultipleChoiceQuestion, deleteQuestion
@@ -27,9 +28,7 @@ public class QuestionRepository {
                 "submoduleid TEXT NOT NULL, " +
                 "prompt TEXT NOT NULL, " +
                 "type TEXT NOT NULL, " +
-                "FOREIGN KEY(submoduleid), "+ 
-                "REFERENCES submodules(submoduleid), " + 
-                "ON DELETE CASCADE, " +
+                "FOREIGN KEY(submoduleid) REFERENCES submodules(submoduleid) ON DELETE CASCADE" +
                 ")"
             );
             // Create table for entry questions
@@ -37,19 +36,15 @@ public class QuestionRepository {
                 "CREATE TABLE IF NOT EXISTS entry_questions (" +
                 "questionid TEXT PRIMARY KEY, " +
                 "correct_answer TEXT NOT NULL, " +
-                "FOREIGN KEY(questionid), " + 
-                "REFERENCES questions(questionid), " + 
-                "ON DELETE CASCADE" +
+                "FOREIGN KEY(questionid) REFERENCES questions(questionid) ON DELETE CASCADE" +
                 ")"
             );
             // Create table for multiple choice questions
             stmt.execute(
-                "CREATE TABLE IF NOT EXISTS multiple_choice_options (" +
-                "questionid TEXT NOT NULL, " +
-                "correctChoiceIndex INTEGER NOT NULL, " +
-                "FOREIGN KEY(questionid), " + 
-                "REFERENCES questions(questionid), " + 
-                "ON DELETE CASCADE" +
+                "CREATE TABLE IF NOT EXISTS multiple_choice_questions (" +
+                "questionid TEXT PRIMARY KEY, " +
+                "correct_answer_index INTEGER NOT NULL, " +
+                "FOREIGN KEY(questionid) REFERENCES questions(questionid) ON DELETE CASCADE" +
                 ")"
             );
             // Create table for multiple choice options
@@ -59,9 +54,7 @@ public class QuestionRepository {
                 "optionIndex INTEGER NOT NULL, " +
                 "optionText TEXT NOT NULL, " +
                 "PRIMARY KEY(questionid, optionIndex), " +
-                "FOREIGN KEY(questionid), " + 
-                "REFERENCES questions(questionid), " + 
-                "ON DELETE CASCADE" +
+                "FOREIGN KEY(questionid) REFERENCES questions(questionid) ON DELETE CASCADE" +
                 ")"
             );
         stmt.close();
