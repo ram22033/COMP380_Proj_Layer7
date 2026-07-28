@@ -15,7 +15,7 @@ import java.awt.Image;
 
 public class HomePage {
 
-    public HomePage(User loggedInUser, UserManager userManager) {
+    public HomePage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager) {
 
         JFrame frame = new JFrame("Layer 7 - Home");
         frame.setSize(800, 600);
@@ -50,7 +50,7 @@ public class HomePage {
 
        profileButton.addActionListener(e -> {
         frame.setVisible(false);
-        new ProfilePage(loggedInUser, userManager, frame);
+        new ProfilePage(loggedInUser, userProgress, userManager, frame);
         });
 
         // Placeholder for future module grid

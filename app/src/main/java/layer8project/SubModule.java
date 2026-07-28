@@ -10,8 +10,9 @@ public class SubModule {
     private String title;
     private String description;
     private ArrayList<Question> questions;
+    private int subModuleOrder; // Order of the submodule within its parent module
 
-    public SubModule(String subModuleID, String title, String description) {
+    public SubModule(String subModuleID, String title, String description, int subModuleOrder) {
         // Check for null or empty values for subModuleID, title, and description
         if (subModuleID == null || subModuleID.isEmpty()) {
             throw new IllegalArgumentException("SubModule ID cannot be null or empty");
@@ -22,7 +23,10 @@ public class SubModule {
         if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description cannot be null or empty");
         }
-
+        if (subModuleOrder < 0) {
+            throw new IllegalArgumentException("SubModule order cannot be negative");
+        }
+        this.subModuleOrder = subModuleOrder;
         this.subModuleID = subModuleID;
         this.title = title;
         this.description = description;
@@ -79,6 +83,10 @@ public class SubModule {
 
     public int getQuestionCount() {
         return questions.size();
+    }
+
+    public int getSubModuleOrder() {
+        return subModuleOrder;
     }
 
 

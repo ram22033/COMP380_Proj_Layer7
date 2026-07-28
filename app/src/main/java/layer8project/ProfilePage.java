@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 public class ProfilePage {
 
-    public ProfilePage(User loggedInUser, UserManager userManager, JFrame homeFrame)  {
+    public ProfilePage(User loggedInUser, UserProgress userProgress, UserManager userManager, JFrame homeFrame)  {
 
         JFrame frame = new JFrame("Profile");
         frame.setSize(800, 600);

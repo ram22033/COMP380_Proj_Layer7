@@ -3,7 +3,7 @@ package layer8project;
 import java.util.ArrayList;
 
 // This class represents multiple choice questions, which are a type of question that has a prompt and a list of options, with one correct answer. It extends the abstract Question class and provides methods to validate answers, change the correct answer, and manage the list of options.
-// getOptions, validateAnswer, changeCorrectAnswer, changeOption, addOption, removeOption, getCorrectAnswerIndex
+// getOptions, validateAnswer, changeCorrectAnswer, changeOption, addOption, removeOption, getCorrectAnswerIndex, isCorrectAnswer
 
 public class MultipleChoiceQuestion extends Question {
     private ArrayList<String> options;
@@ -71,6 +71,13 @@ public class MultipleChoiceQuestion extends Question {
     }
     public int getCorrectAnswerIndex() {
         return correctAnswerIndex;
+    }
+
+    public boolean isCorrectAnswer(String userAnswer) {
+        if (userAnswer == null || userAnswer.isEmpty()) {
+            throw new IllegalArgumentException("User answer cannot be null or empty");
+        }
+        return options.get(correctAnswerIndex).equals(userAnswer);
     }
 
 }

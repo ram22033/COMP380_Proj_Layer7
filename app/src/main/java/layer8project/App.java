@@ -126,21 +126,29 @@ public class App {
         // Creation of the LOGIN button
         // Along with the coloring, color of the text, background and restricts the sizing of the button
 
+
+        // Add Repositories and Managers
         panel.add(login);
-        UserRepository repository = new UserRepository();
-        UserManager userManager = new UserManager(repository);
+        UserRepository userRepository = new UserRepository();
+        ModuleRepository moduleRepository = new ModuleRepository();
+        QuestionRepository questionRepository = new QuestionRepository();
+        ProgressRepository progressRepository = new ProgressRepository();
+        UserManager userManager = new UserManager(userRepository);
+        ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository);
+
+
 
         login.addActionListener(e -> {
         String loginUsername = usernamefield.getText();
         String loginPassword = new String(passwordField.getPassword());
         User user = userManager.userLogin(loginUsername, loginPassword);
-        
-        if (user != null) {
-        frame.dispose();
-        new HomePage(user, userManager);
-        } else {
-        JOptionPane.showMessageDialog(frame, "Invalid username or password.");
-        }
+            if (user != null) {
+                UserProgress userProgress = progressRepository.loadUserProgress(user.getUsername());
+                frame.dispose();
+                new HomePage(user, userProgress, userManager, moduleManager);
+                } else {
+                JOptionPane.showMessageDialog(frame, "Invalid username or password.");
+                }
         });
         //Creation of a Login button
 

@@ -107,6 +107,23 @@ public class UserRepository {
     } catch (SQLException e) {
         System.out.println("Error updating password: " + e.getMessage());
         return false;
+        }
     }
-}
+
+    public boolean updateBalance(String username, double newBalance) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE users SET balance = ? WHERE username = ?"
+            );
+            stmt.setDouble(1, newBalance);
+            stmt.setString(2, username);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating balance: " + e.getMessage());
+            return false;
+            }
+    }
+
+
 }
