@@ -1,7 +1,21 @@
 package layer8project;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 //"import javax.swing.*;" is a prebuilt GUI tool that helps you create windows, buttons, and text boxes
 //^ In short it helps with quality of life 
@@ -135,6 +149,7 @@ public class App {
         ProgressRepository progressRepository = new ProgressRepository();
         UserManager userManager = new UserManager(userRepository);
         ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository);
+        DatabaseSeeder.seedModules(moduleRepository, questionRepository);
 
 
 
