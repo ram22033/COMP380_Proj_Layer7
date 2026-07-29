@@ -140,6 +140,10 @@ public class UserProgress {
         return true;
     }
 
+    public int getCompletedQuestionCount() {
+        return completedQuestionIds.size();
+    }
+
 
 
 }
