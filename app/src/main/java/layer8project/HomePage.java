@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -11,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Image;
 
 public class HomePage {
 
@@ -83,5 +84,21 @@ public class HomePage {
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        // ADMIN PAGE Button
+        if (loggedInUser.isAdmin()) {
+            JButton adminButton = new JButton("Admin Dashboard");
+            adminButton.setBackground(new Color(180, 80, 0));
+            adminButton.setForeground(Color.WHITE);
+            adminButton.setFocusPainted(false);
+            adminButton.setMaximumSize(new Dimension(300, 45));
+            adminButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            adminButton.addActionListener(e -> {
+                frame.setVisible(false);
+                new AdminPage(loggedInUser,userManager,moduleManager,frame);
+            });
+            panel.add(Box.createVerticalStrut(10));
+            panel.add(adminButton);
+        }
     }
 }
