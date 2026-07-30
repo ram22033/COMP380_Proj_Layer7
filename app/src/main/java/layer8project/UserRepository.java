@@ -125,5 +125,45 @@ public class UserRepository {
             }
     }
 
+    public boolean updateEmail(String username, String newEmail){
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE users SET email = ? WHERE username = ?");
+            stmt.setString(1, newEmail);
+            stmt.setString(2, username);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating email: " + e.getMessage());
+            return false;
+        }
+
+    }
+
+    public boolean updateRole(String username, Role newRole) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("UPDATE users SET role = ? WHERE username = ?");
+            stmt.setString(1, newRole.name());
+            stmt.setString(2, username);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating role: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteUser(String username) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM users WHERE username = ?");
+            stmt.setString(1, username);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error deleting user: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 
 }

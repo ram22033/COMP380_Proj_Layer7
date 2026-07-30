@@ -1,6 +1,7 @@
 package layer8project;
-
 import java.util.ArrayList;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 // This is a DatabaseSeeder that is meant to add Modules into the Database upon starting the program
 // Currently these are filled with examples and will need to be changed
@@ -83,6 +84,16 @@ public class DatabaseSeeder {
             questionRepository.addEntryQuestion(ex8, exampleSubModule4.getSubModuleID());
         }
 
+    }
+    
+    // Creates default ADMIN
+    public static void seedAdmin(UserRepository userRepository) {
+        // Only create the admin if it does not already exist
+        if (userRepository.findUser("admin") == null) {
+            String hashedPassword = BCrypt.hashpw("admin", BCrypt.gensalt());
+            User admin = new User("admin",hashedPassword,Role.ADMIN);
+            userRepository.addUser(admin);
+        }
     }
 
 }
