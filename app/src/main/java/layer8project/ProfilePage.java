@@ -5,11 +5,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -206,5 +208,49 @@ public class ProfilePage {
         frame.setVisible(true);
         
         formPanel.add(changePasswordButton);
+
+        /// ADMIN Buttons
+        if (loggedInUser.isAdmin()) {
+            JButton addFundsButton = new JButton("Add Funds");
+            addFundsButton.setBackground(new Color(0, 150, 90));
+            addFundsButton.setForeground(Color.WHITE);
+            addFundsButton.setFocusPainted(false);
+            addFundsButton.setMaximumSize(new Dimension(400, 45));
+            addFundsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+            addFundsButton.setOpaque(true);
+            addFundsButton.setBorderPainted(false);
+            addFundsButton.addActionListener(e -> {
+                String input = JOptionPane.showInputDialog(frame,"Enter amount to add:");
+                // User clicked Cancel
+                if (input == null) {
+                    return;
+                }
+                try {
+                    double amount = Double.parseDouble(input);
+                    if (amount <= 0) {
+                        JOptionPane.showMessageDialog(frame,"Amount must be greater than 0.");
+                        return;
+                    }
+                    double newBalance =
+                    loggedInUser.getBalance() + amount;
+                    boolean success = userManager.changeBalance(loggedInUser,loggedInUser,newBalance);
+                    if (success) {
+                        JOptionPane.showMessageDialog(
+                            frame, "Added " + amount + " points.");
+                        } else {
+                            JOptionPane.showMessageDialog(frame,"Unable to update balance.");
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(frame,"Please enter a valid number.");
+                    }
+                }
+            );
+            formPanel.add(addFundsButton);
+            formPanel.add(Box.createVerticalStrut(10));
+        }
+
+
+
+
     }
 }
