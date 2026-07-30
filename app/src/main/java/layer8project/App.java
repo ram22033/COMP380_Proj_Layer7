@@ -149,7 +149,12 @@ public class App {
         ProgressRepository progressRepository = new ProgressRepository();
         UserManager userManager = new UserManager(userRepository);
         ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository);
+        
+        // Seed default modules
         DatabaseSeeder.seedModules(moduleRepository, questionRepository);
+        // Seed default admin
+        DatabaseSeeder.seedAdmin(userRepository);
+
 
 
 
