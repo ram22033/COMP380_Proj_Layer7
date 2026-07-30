@@ -12,11 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class HomePage {
 
-    public HomePage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager) {
+    public HomePage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, ProgressRepository progressRepository) {
 
         JFrame frame = new JFrame("Layer 7 - Home");
         frame.setSize(800, 600);
@@ -68,6 +69,16 @@ public class HomePage {
         contactButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         contactButton.setOpaque(true);
         contactButton.setBorderPainted(false);
+        // Contact Support Listener
+        contactButton.addActionListener(e -> {
+                JOptionPane.showMessageDialog(frame,
+                    "Need help?\n\n" + 
+                    "Email: support@layer7.com\n" +
+                    "Phone: (877) CAS-HNOW\n\n" +
+                    "Support Hours: Monday - Friday, 9 AM - 5 PM",
+                    "Contact Support",
+                    JOptionPane.INFORMATION_MESSAGE);
+                });
 
         // Add everything to panel
         panel.add(Box.createVerticalStrut(20));
@@ -100,5 +111,21 @@ public class HomePage {
             panel.add(Box.createVerticalStrut(10));
             panel.add(adminButton);
         }
+
+        // Logout button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(120, 40, 40));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setOpaque(true);
+        logoutButton.setBorderPainted(false);
+        logoutButton.setMaximumSize(new Dimension(300, 45));
+        logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logoutButton.addActionListener(e -> {
+            frame.dispose();
+            new LoginPage(userManager, moduleManager, progressRepository);
+        });
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(logoutButton);
     }
 }

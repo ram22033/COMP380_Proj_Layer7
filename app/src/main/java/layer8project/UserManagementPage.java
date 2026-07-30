@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class UserManagementPage {
     private final User loggedInAdmin;
@@ -215,7 +217,52 @@ public class UserManagementPage {
 
         // Create New User
         createUserButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Create User page coming soon.");
+            JTextField usernameField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+            JTextField emailField = new JTextField();
+            JComboBox<Role> roleSelector = new JComboBox<>(Role.values());
+            Object[] fields = {
+                "Username:", usernameField, "Password:", passwordField, "Email:", emailField, "Role:", roleSelector
+            };
+            int result = JOptionPane.showConfirmDialog(frame, fields, "Create New User", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (result != JOptionPane.OK_OPTION) {
+                return;
+            }
+            String username = usernameField.getText().trim();
+            String password = new String(passwordField.getPassword());
+            String email = emailField.getText().trim();
+            Role role = (Role)roleSelector.getSelectedItem();
+            
+            // Validate required fields
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Username and password are required.");
+                return;
+            }
+            // Check whether username already exists
+            if (userManager.findUser(username) != null) {
+                JOptionPane.showMessageDialog(frame, "That username already exists.");
+                return;
+            }
+            User newUser = new User(username, password, role);
+            
+            // Email is optional
+            if (!email.isEmpty()) {
+                newUser.setEmail(email);
+            }
+            boolean success = userManager.createUser(loggedInAdmin, newUser);
+            if (success) {
+                JOptionPane.showMessageDialog(frame, "User created successfully.");
+        
+                // Refresh dropdown
+                loadUsers();
+                
+                // Select newly created user
+                userSelector.setSelectedItem(username);
+                selectedUser = userManager.findUser(username);
+                updateUserDisplay();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Unable to create user.");
+            }
         });
 
         // Back
