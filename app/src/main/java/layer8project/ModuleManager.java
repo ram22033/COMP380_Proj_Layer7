@@ -9,9 +9,11 @@ public class ModuleManager {
 
     private final UserRepository userRepository;
     private final ProgressRepository progressRepository;
-    public ModuleManager(UserRepository userRepository, ProgressRepository progressRepository) {
+    private ModuleRepository moduleRepository;
+    public ModuleManager(UserRepository userRepository, ProgressRepository progressRepository, ModuleRepository moduleRepository) {
         this.userRepository = userRepository;
         this.progressRepository = progressRepository;
+        this.moduleRepository = moduleRepository;
     }
 
     public boolean purchaseModule(User user, UserProgress userProgress, LearningModule module) {
@@ -238,5 +240,18 @@ public class ModuleManager {
         System.out.println("User rewarded with " + module.getCompletionReward() + " points");
 
     }
+    
+    public ArrayList<LearningModule> getAllModules() {
+        return moduleRepository.getAllModules();
+    }
+    
+    public LearningModule getModuleById(String moduleID) {
+        return moduleRepository.getModuleById(moduleID);
+    }
+    
+    public ArrayList<SubModule> getSubModules(String moduleID) {
+        return moduleRepository.getSubModules(moduleID);
+    }
+
 
 }
