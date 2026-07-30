@@ -1,11 +1,12 @@
 package layer8project;
-import org.sqlite.SQLiteDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.sqlite.SQLiteDataSource;
 
 // This class serves as a repository for managing LearningModule and SubModule objects in a SQLite database. It provides methods to add, retrieve, update, and delete modules and submodules, as well as to retrieve all modules or submodules associated with a specific module. The class ensures that the database schema is created if it does not already exist and handles SQL exceptions appropriately.
 // addModule, addSubModule, getModuleById, getSubModuleById, updateModule, updateSubModule, deleteModule, deleteSubModule, getAllModules, getSubModules

@@ -46,8 +46,6 @@ public class AdminPage {
         // Content Management
         JLabel contentSection = createSectionTitle("CONTENT MANAGEMENT");
         JButton manageModulesButton = createButton("Manage Modules");
-        JButton manageSubModulesButton = createButton("Manage Submodules");
-        JButton manageQuestionsButton = createButton("Manage Questions");
 
         // System
         JLabel systemSection = createSectionTitle("SYSTEM");
@@ -60,22 +58,15 @@ public class AdminPage {
         //////////////////     TO DO!!!!!!!!!!    //////////
         // Button Actions
         manageUsersButton.addActionListener(e -> {
-            System.out.println("Open User Management Page");
+            frame.setVisible(false);
+            new UserManagementPage(loggedInUser,userManager,frame);
         });
 
 
         manageModulesButton.addActionListener(e -> {
-            System.out.println("Open Module Management Page");
+            new ModuleManagementPage(moduleManager,frame);
+            frame.setVisible(false);
         });
-
-        manageSubModulesButton.addActionListener(e -> {
-            System.out.println("Open Submodule Management Page");
-        });
-
-        manageQuestionsButton.addActionListener(e -> {
-            System.out.println("Open Question Management Page");
-        });
-
 
         statisticsButton.addActionListener(e -> {
             System.out.println("Open Statistics Page");
@@ -99,10 +90,6 @@ public class AdminPage {
         panel.add(contentSection);
         panel.add(Box.createVerticalStrut(8));
         panel.add(manageModulesButton);
-        panel.add(Box.createVerticalStrut(8));
-        panel.add(manageSubModulesButton);
-        panel.add(Box.createVerticalStrut(8));
-        panel.add(manageQuestionsButton);
         panel.add(Box.createVerticalStrut(25));
         panel.add(systemSection);
         panel.add(Box.createVerticalStrut(8));
