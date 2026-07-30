@@ -12,70 +12,115 @@ public class UserManager {
         this.repository = repository;
     }
     
-    public void changePassword(User currentUser, User userToChange, String newPassword){
+    public boolean changePassword(User currentUser, User userToChange, String newPassword){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToChange.setPassword(newPassword);
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Password cannot be null or empty"
+            );
+        }
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        boolean success = repository.updatePassword(userToChange.getUsername(),hashedPassword);
+        if (success) {
+            userToChange.setPassword(hashedPassword);
+        }
+        return success;
     }
 
-    public void changeBalance(User currentUser, User userToChange, double newBalance){
+    public boolean changeBalance(User currentUser, User userToChange, double newBalance){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToChange.setBalance(newBalance);
+        if (newBalance < 0) {
+            throw new IllegalArgumentException("Balance cannot be negative");
+        }
+        boolean success = repository.updateBalance(userToChange.getUsername(),newBalance);
+        if (success) {
+            userToChange.setBalance(newBalance);
+        }
+        return success;
     }
+    
 
-    public void changeEmail(User currentUser, User userToChange, String newEmail){
+    public boolean changeEmail(User currentUser, User userToChange, String newEmail){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToChange.setEmail(newEmail);
+        if (newEmail == null || newEmail.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+        boolean success = repository.updateEmail(userToChange.getUsername(),newEmail);
+        if (success) {
+            userToChange.setEmail(newEmail);
+        }
+        return success;
     }
 
-    public void promoteToAdmin(User currentUser, User userToPromote){
+    public boolean promoteToAdmin(User currentUser, User userToPromote){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToPromote.setRole(Role.ADMIN);
+        boolean success = repository.updateRole(userToPromote.getUsername(),Role.ADMIN);
+        if (success) {
+            userToPromote.setRole(Role.ADMIN);
+        }
+        return success;
     }
+    
 
-    public void banUser(User currentUser, User userToBan){
+    public boolean banUser(User currentUser, User userToBan){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToBan.setRole(Role.BANNED);
+        boolean success = repository.updateRole(userToBan.getUsername(),Role.BANNED);
+        if (success) {
+            userToBan.setRole(Role.BANNED);
+        }
+        return success;
     }
 
-    public void createUser(User currentUser, User userToCreate){
+
+    public boolean createUser(User currentUser, User userToCreate){
     if(!currentUser.isAdmin()){
         System.out.println("Access Denied");
-        return;
+        return false;
     }
-    String hashedPassword = BCrypt.hashpw(userToCreate.getPassword(), BCrypt.gensalt());
+    String hashedPassword =BCrypt.hashpw(userToCreate.getPassword(),BCrypt.gensalt());
     userToCreate.setPassword(hashedPassword);
-    repository.addUser(userToCreate);
-}
-
-    public void deleteUser(User currentUser, User userToDelete){
-        if(!currentUser.isAdmin()){
-            System.out.println("Access Denied");
-            return;
-        }
-        repository.getAllUsers().remove(userToDelete);
+    return repository.addUser(userToCreate);
     }
 
-    public void resetPassword(User currentUser, User userToReset, String newPassword){
+
+
+    public boolean deleteUser(User currentUser, User userToDelete){
         if(!currentUser.isAdmin()){
             System.out.println("Access Denied");
-            return;
+            return false;
         }
-        userToReset.setPassword(newPassword);
+        return repository.deleteUser(userToDelete.getUsername());
+    }
+
+    public boolean resetPassword(User currentUser, User userToReset, String newPassword){
+        if(!currentUser.isAdmin()){
+            System.out.println("Access Denied");
+            return false;
+        }
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        boolean success = repository.updatePassword(userToReset.getUsername(), hashedPassword);
+        if (success) {
+            userToReset.setPassword(hashedPassword);
+        }
+        return success;
     }
 
     public User userLogin(String userName, String password){

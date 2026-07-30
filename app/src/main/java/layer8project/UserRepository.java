@@ -35,7 +35,7 @@ public class UserRepository {
         }
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                 "INSERT INTO users (username, password, email, role, balance) VALUES (?, ?, ?, ?, ?)"
@@ -45,9 +45,11 @@ public class UserRepository {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getRole().name());
             stmt.setDouble(5, user.getBalance());
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             System.out.println("Error adding user: " + e.getMessage());
+            return false;
         }
     }
 

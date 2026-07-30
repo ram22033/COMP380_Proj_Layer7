@@ -1,6 +1,6 @@
 package layer8project;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 // This class manages the unlocking and completion of learning modules and submodules for users. It provides methods to purchase modules, unlock submodules, check if modules or submodules are unlocked or completed, and submit answers to questions. The class interacts with User, UserProgress, LearningModule, SubModule, and Question classes to facilitate user progress tracking and reward management.
 // purchaseModule, unlockSubModule, unlockNextSubModule, isModuleUnlocked, isSubModuleUnlocked, checkIfModuleCompleted, checkIfSubModuleCompleted, submitAnswer, canUserAccessSubModule, processCorrectAnswer, processSubModuleCompletion, processModuleCompletion
