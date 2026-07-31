@@ -56,9 +56,20 @@ public class HomePage {
         });
 
         // Placeholder for future module grid
-        JLabel modulesLabel = new JLabel("Modules coming soon...");
-        modulesLabel.setForeground(new Color(150, 150, 150));
-        modulesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton modulesButton = new JButton("Modules");
+        modulesButton.setBackground(new Color(30, 200, 30));
+        modulesButton.setForeground(Color.WHITE);
+        modulesButton.setFocusPainted(false);
+        modulesButton.setMaximumSize(new Dimension(300, 100));
+        modulesButton.setPreferredSize(new Dimension(300,80));
+        modulesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modulesButton.setOpaque(true);
+        modulesButton.setBorderPainted(false);
+                modulesButton.addActionListener(e -> {
+            frame.dispose();
+            new ModulesPage(loggedInUser, userProgress, moduleManager, frame);
+        });
+        
 
         // Contact support button
         JButton contactButton = new JButton("Contact Support");
@@ -86,9 +97,9 @@ public class HomePage {
         panel.add(Box.createVerticalStrut(10));
         panel.add(welcomeLabel);
         panel.add(Box.createVerticalStrut(20));
-        panel.add(profileButton);
+        panel.add(modulesButton);
         panel.add(Box.createVerticalStrut(20));
-        panel.add(modulesLabel);
+        panel.add(profileButton);
         panel.add(Box.createVerticalStrut(20));
         panel.add(contactButton);
 
