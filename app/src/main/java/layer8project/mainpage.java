@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 
 public class mainpage   {
@@ -19,7 +20,8 @@ public class mainpage   {
 public mainpage(
             User loggedUser, 
             UserProgress userProgress, 
-            UserManager userManager
+            UserManager userManager,
+            JFrame homefFrame
             ) {
 
         JFrame frame = new JFrame("Layer 7");
@@ -52,9 +54,12 @@ public mainpage(
 
         //Profile Button
         JButton profilebutton = new JButton("👤");
-        profilebutton.setPreferredSize(new Dimension(60,60));
-        profilebutton.setMaximumSize(new Dimension(60,60));
-        profilebutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        profilebutton.setFocusPainted(false);
+        profilebutton.setBorderPainted(false);
+        profilebutton.setContentAreaFilled(false);
+        profilebutton.setOpaque(false);
+        profilebutton.setForeground(Color.WHITE);
+        
 
         profilebutton.addActionListener(e -> {
             frame.setVisible(false);
@@ -66,20 +71,61 @@ public mainpage(
                 frame);
         }); 
 
+        JPanel moduleGrid = new JPanel(new GridLayout(3,3,30,30));
+        moduleGrid.setBackground(new Color (30,30,30));
+        moduleGrid.setBorder( 
+            javax.swing.BorderFactory.createEmptyBorder(50, 100, 50, 100)
+        );
+
+        JButton module1 = createModuleButton("Module 1");
+        JButton module2 = createModuleButton("Module 2");
+        JButton module3 = createModuleButton("Module 3");
+        JButton module4 = createModuleButton("Module 4");
+        JButton module5 = createModuleButton("Module 5");
+        JButton module6 = createModuleButton("Module 6");
+        JButton module7 = createModuleButton("Module 7");
+        JButton module8 = createModuleButton("Module 8");
+        JButton module9 = createModuleButton("Module 9");
+
+        moduleGrid.add(module1);
+        moduleGrid.add(module2);
+        moduleGrid.add(module3);
+        moduleGrid.add(module4);
+        moduleGrid.add(module5);
+        moduleGrid.add(module6);
+        moduleGrid.add(module7);
+        moduleGrid.add(module8);
+        moduleGrid.add(module9);
+
+
 
         headerpanel.add(logoLabel,BorderLayout.WEST);
         headerpanel.add(profilebutton, BorderLayout.EAST);
 
-        panel.add(headerpanel);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(formPanel);
-        panel.add(Box.createVerticalStrut(5));
-;
-    
+        frame.add(headerpanel, BorderLayout.NORTH);
+        frame.add(moduleGrid, BorderLayout.CENTER);
 
-        frame.add(panel, BorderLayout.NORTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+    private JButton createModuleButton(String text) { 
+        JButton button = new JButton(text);
+
+        button.setBackground(new Color (30,30,30));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setOpaque(true);
+        button.setContentAreaFilled(true);
+        button.setContentAreaFilled(true);
+
+        button.setBorder(
+            javax.swing.BorderFactory.createLineBorder( 
+                Color.WHITE,
+                3,
+                true
+            )
+        );
+        return button;
 
     }
 }

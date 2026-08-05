@@ -65,9 +65,15 @@ public class HomePage {
         modulesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         modulesButton.setOpaque(true);
         modulesButton.setBorderPainted(false);
-                modulesButton.addActionListener(e -> {
-            frame.dispose();
-            new ModulesPage(loggedInUser, userProgress, moduleManager, frame);
+            modulesButton.addActionListener(e -> {
+                frame.setVisible(false);
+
+                new mainpage (
+                loggedInUser, 
+                userProgress, 
+                userManager,
+                frame
+            );
         });
         
 
