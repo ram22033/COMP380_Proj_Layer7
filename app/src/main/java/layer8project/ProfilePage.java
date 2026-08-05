@@ -167,7 +167,6 @@ public class ProfilePage {
         );
 
 
-
         // Change password button
         JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.setBackground(new Color(0, 120, 255));

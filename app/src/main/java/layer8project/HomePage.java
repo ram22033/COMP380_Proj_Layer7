@@ -103,6 +103,7 @@ public class HomePage {
         panel.add(Box.createVerticalStrut(20));
         panel.add(contactButton);
 
+
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

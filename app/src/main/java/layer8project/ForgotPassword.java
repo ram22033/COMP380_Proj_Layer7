@@ -128,7 +128,6 @@ public class ForgotPassword {
         formPanel.add(backButton);
         formPanel.add(Box.createVerticalStrut(20));
 
-
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);    
