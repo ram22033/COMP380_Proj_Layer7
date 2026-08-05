@@ -1,10 +1,11 @@
 package layer8project;
-import org.sqlite.SQLiteDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.sqlite.SQLiteDataSource;
 
 // This class serves as a repository for managing user progress data in the database. It provides methods to save and load user progress, including unlocked and completed modules, submodules, and questions. The class interacts with the SQLite database to perform CRUD operations on user progress data, ensuring that user progress is stored and retrieved efficiently.
 // saveUnlockedModule, saveCompletedModule, saveUnlockedSubModule, saveCompletedSubModule, saveCompletedQuestion, loadUserProgress
@@ -187,10 +188,11 @@ public class ProgressRepository {
         String sql = "SELECT moduleID FROM user_unlocked_modules WHERE userID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, userProgress.getUserID());
-            ResultSet rs = pstmt.executeQuery();
+            try (ResultSet rs = pstmt.executeQuery()){
             while (rs.next()) {
                 userProgress.unlockModule(rs.getString("moduleID"));
             }
+        }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading unlocked modules: " + e.getMessage());
         }
@@ -200,9 +202,10 @@ public class ProgressRepository {
         String sql = "SELECT moduleID FROM user_completed_modules WHERE userID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, userProgress.getUserID());
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                userProgress.markModuleCompleted(rs.getString("moduleID"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    userProgress.markModuleCompleted(rs.getString("moduleID"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading completed modules: " + e.getMessage());
@@ -213,9 +216,10 @@ public class ProgressRepository {
         String sql = "SELECT subModuleID FROM user_unlocked_submodules WHERE userID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, userProgress.getUserID());
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                userProgress.unlockSubModule(rs.getString("subModuleID"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    userProgress.unlockSubModule(rs.getString("subModuleID"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading unlocked submodules: " + e.getMessage());
@@ -226,9 +230,10 @@ public class ProgressRepository {
         String sql = "SELECT subModuleID FROM user_completed_submodules WHERE userID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, userProgress.getUserID());
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                userProgress.markSubModuleCompleted(rs.getString("subModuleID"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    userProgress.markSubModuleCompleted(rs.getString("subModuleID"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading completed submodules: " + e.getMessage());
@@ -239,9 +244,10 @@ public class ProgressRepository {
         String sql = "SELECT questionID FROM user_completed_questions WHERE userID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, userProgress.getUserID());
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                userProgress.markQuestionCorrect(rs.getString("questionID"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    userProgress.markQuestionCorrect(rs.getString("questionID"));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error loading completed questions: " + e.getMessage());

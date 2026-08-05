@@ -20,8 +20,9 @@ public class ModuleRepository {
             SQLiteDataSource dataSource = new SQLiteDataSource();
             dataSource.setUrl("jdbc:sqlite:layer7.db"); // Same database file as UserRepository
             connection = dataSource.getConnection();
-            Statement stmt = connection.createStatement();
+            try (Statement stmt = connection.createStatement()){;
             stmt.execute("PRAGMA foreign_keys = ON");
+            stmt.execute("PRAGMA busy_timeout = 5000");
             stmt.execute(
                 "CREATE TABLE IF NOT EXISTS learning_modules ("
                 + "moduleID TEXT PRIMARY KEY,"
@@ -44,6 +45,7 @@ public class ModuleRepository {
                 + ")"
             );
             stmt.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Unable to initialize ModuleRepository", e);
@@ -61,8 +63,8 @@ public class ModuleRepository {
             pstmt.setString(3, module.getDescription());
             pstmt.setDouble(4, module.getUnlockPrice());
             pstmt.setDouble(5, module.getCompletionReward());
-            pstmt.executeUpdate();
-            return true;
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             System.out.println("Error adding module: " + e.getMessage());
             return false;
@@ -96,16 +98,17 @@ public class ModuleRepository {
         String sql = "SELECT * FROM learning_modules WHERE moduleID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, moduleID);
-            ResultSet results = pstmt.executeQuery();
-            if (results.next()) {
-                String title = results.getString("title");
-                String description = results.getString("description");
-                double unlockPrice = results.getDouble("unlockPrice");
-                double completionReward = results.getDouble("completionReward");
-                return new LearningModule(moduleID, title, description, unlockPrice, completionReward);
+            try (ResultSet results = pstmt.executeQuery()) {
+                if (results.next()) {
+                    String title = results.getString("title");
+                    String description = results.getString("description");
+                    double unlockPrice = results.getDouble("unlockPrice");
+                    double completionReward = results.getDouble("completionReward");
+                    return new LearningModule(moduleID, title, description, unlockPrice, completionReward);
             } else {
                 return null; // Module not found
             }
+        }
         } catch (SQLException e) {
             System.out.println("Error retrieving module: " + e.getMessage());
             return null;
@@ -120,9 +123,8 @@ public class ModuleRepository {
         String sql = "SELECT * FROM submodules WHERE subModuleID = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, subModuleID);
-            ResultSet results = pstmt.executeQuery();
+            try (ResultSet results = pstmt.executeQuery()){
             if (results.next()) {
-                String moduleID = results.getString("moduleID");
                 String title = results.getString("title");
                 String description = results.getString("description");
                 int subModuleOrder = results.getInt("subModuleOrder");
@@ -130,6 +132,7 @@ public class ModuleRepository {
             } else {
                 return null; // SubModule not found
             }
+        }
         } catch (SQLException e) {
             System.out.println("Error retrieving submodule: " + e.getMessage());
             return null;
@@ -211,8 +214,8 @@ public class ModuleRepository {
     public ArrayList<LearningModule> getAllModules() {
         String sql = "SELECT * FROM learning_modules";
         ArrayList<LearningModule> modules = new ArrayList<>();
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet results = stmt.executeQuery(sql);
+        try (Statement stmt = connection.createStatement();
+        ResultSet results = stmt.executeQuery(sql)) {
             while (results.next()) {
                 String moduleID = results.getString("moduleID");
                 String title = results.getString("title");
@@ -237,7 +240,7 @@ public class ModuleRepository {
         ArrayList<SubModule> subModules = new ArrayList<>();
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, moduleID);
-            ResultSet results = pstmt.executeQuery();
+            try (ResultSet results = pstmt.executeQuery()){
             while (results.next()) {
                 String subModuleID = results.getString("subModuleID");
                 String title = results.getString("title");
@@ -246,6 +249,7 @@ public class ModuleRepository {
                 SubModule subModule = new SubModule(subModuleID, title, description, subModuleOrder);
                 subModules.add(subModule);
             }
+        }
         } catch (SQLException e) {
             System.out.println("Error retrieving submodules: " + e.getMessage());
         }

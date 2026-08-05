@@ -20,7 +20,7 @@ public class UserRepository {
             dataSource.setUrl("jdbc:sqlite:layer7.db");
             connection = dataSource.getConnection();
 
-            Statement stmt = connection.createStatement();
+            try (Statement stmt = connection.createStatement()){
             stmt.execute(
                 "CREATE TABLE IF NOT EXISTS users (" +
                 "username TEXT PRIMARY KEY, " +
@@ -30,6 +30,7 @@ public class UserRepository {
                 "balance REAL DEFAULT 0.0" +
                 ")"
             );
+            }
         } catch (SQLException e) {
             System.out.println("Database error: " + e.getMessage());
         }
@@ -80,7 +81,7 @@ public class UserRepository {
                 "SELECT * FROM users WHERE username = ?"
             );
             stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()){
             if (rs.next()) {
                 User user = new User(
                     rs.getString("username"),
@@ -92,6 +93,7 @@ public class UserRepository {
                 return user;
             
             }
+        }
         } catch (SQLException e) {
             System.out.println("Error finding user: " + e.getMessage());
         }

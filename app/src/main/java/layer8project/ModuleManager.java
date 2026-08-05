@@ -10,10 +10,12 @@ public class ModuleManager {
     private final UserRepository userRepository;
     private final ProgressRepository progressRepository;
     private ModuleRepository moduleRepository;
-    public ModuleManager(UserRepository userRepository, ProgressRepository progressRepository, ModuleRepository moduleRepository) {
+    private final QuestionRepository questionRepository;
+    public ModuleManager(UserRepository userRepository, ProgressRepository progressRepository, ModuleRepository moduleRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
         this.progressRepository = progressRepository;
         this.moduleRepository = moduleRepository;
+        this.questionRepository = questionRepository;
     }
 
     public boolean purchaseModule(User user, UserProgress userProgress, LearningModule module) {
@@ -253,5 +255,76 @@ public class ModuleManager {
         return moduleRepository.getSubModules(moduleID);
     }
 
+    public SubModule getSubModuleById(String subModuleID) {
+        return moduleRepository.getSubModuleById(subModuleID);
+    }
+
+    public ArrayList<Question> getQuestionsBySubModuleId(String subModuleID) {
+        return questionRepository.getQuestionsBySubModuleId(subModuleID);
+    }
+    // Additional methods for managing modules, submodules, and questions can be added here as needed
+    public boolean addModule(LearningModule module) {
+        return moduleRepository.addModule(module);
+    }
+    public boolean updateModule(LearningModule module) {
+        if (module == null) {
+            throw new IllegalArgumentException("Module cannot be null");
+        }
+        return moduleRepository.updateModule(module);
+    }
+    public boolean deleteModule(String moduleID) {
+        if (moduleID == null || moduleID.isBlank()) {
+            throw new IllegalArgumentException("Module ID cannot be null or empty");
+        }
+        return moduleRepository.deleteModule(moduleID);
+    }
+    public boolean addSubModule(String moduleID, SubModule subModule) {
+        if (moduleID == null || moduleID.isBlank()) {
+            throw new IllegalArgumentException("Module ID cannot be null or empty");
+        }
+        if (subModule == null) {
+            throw new IllegalArgumentException("Submodule cannot be null");
+        }
+        return moduleRepository.addSubModule(moduleID,subModule);
+    }
+    public boolean updateSubModule(SubModule subModule) {
+        if (subModule == null) {
+            throw new IllegalArgumentException("Submodule cannot be null");
+        }
+        return moduleRepository.updateSubModule(subModule);
+    }
+    public boolean deleteSubModule(String subModuleID) {
+        if (subModuleID == null || subModuleID.isBlank()) {
+            throw new IllegalArgumentException("Submodule ID cannot be null or empty");
+        }
+        return moduleRepository.deleteSubModule(subModuleID);
+    }
+    public boolean addEntryQuestion(EntryQuestion question, String subModuleID) {
+        return questionRepository.addEntryQuestion(question, subModuleID);
+    }
+    public boolean addMultipleChoiceQuestion(MultipleChoiceQuestion question, String subModuleID) {
+        return questionRepository.addMultipleChoiceQuestion(question, subModuleID);
+    }
+    public Question getQuestionById(String questionID) {
+        return questionRepository.getQuestionById(questionID);
+    }
+    public boolean updateEntryQuestion(EntryQuestion question) {
+        if (question == null) {
+            throw new IllegalArgumentException("Question cannot be null");
+        }
+        return questionRepository.updateEntryQuestion(question);
+    }
+    public boolean updateMultipleChoiceQuestion(MultipleChoiceQuestion question) {
+        if (question == null) {
+            throw new IllegalArgumentException("Question cannot be null");
+        }
+        return questionRepository.updateMultipleChoiceQuestion(question);
+    }
+
+    public boolean deleteQuestion(String questionID) {
+        if (questionID == null || questionID.isBlank()) {
+            throw new IllegalArgumentException("Question ID cannot be null or empty");
+        }
+        return questionRepository.deleteQuestion(questionID);}
 
 }

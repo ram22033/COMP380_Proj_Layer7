@@ -11,10 +11,10 @@ public class App {
         QuestionRepository questionRepository = new QuestionRepository();
         ProgressRepository progressRepository = new ProgressRepository();
         UserManager userManager = new UserManager(userRepository);
-        ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository, moduleRepository);
+        ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository, moduleRepository, questionRepository);
         
         // Seed default modules
-        DatabaseSeeder.seedModules(moduleRepository, questionRepository);
+        // DatabaseSeeder.seedModules(moduleRepository, questionRepository);
         // Seed default admin
         DatabaseSeeder.seedAdmin(userRepository);
 

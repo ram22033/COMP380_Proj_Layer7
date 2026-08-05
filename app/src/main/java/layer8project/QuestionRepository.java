@@ -142,82 +142,88 @@ public class QuestionRepository {
     }
 
     public Question getQuestionById(String questionId) {
-        if (questionId == null || questionId.isEmpty()) {
+        if (questionId == null || questionId.isBlank()) {
             throw new IllegalArgumentException("Question ID cannot be null or empty");
         }
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(
-                "SELECT * FROM questions WHERE questionid = ?"
-            );
+        String questionSql ="SELECT type, prompt " + "FROM questions " + "WHERE questionid = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(questionSql)) {
             pstmt.setString(1, questionId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (!rs.next()) {
-                return null; // Question not found
-            }
-
-            String type = rs.getString("type");
-            String prompt = rs.getString("prompt");
-
-            if ("entry".equals(type)) {
-                PreparedStatement entryPstmt = connection.prepareStatement(
-                    "SELECT correct_answer FROM entry_questions WHERE questionid = ?"
-                );
-                entryPstmt.setString(1, questionId);
-                ResultSet entryRs = entryPstmt.executeQuery();
-                if (entryRs.next()) {
-                    String correctAnswer = entryRs.getString("correct_answer");
-                    return new EntryQuestion(questionId, prompt, correctAnswer);
+            String type;
+            String prompt;
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
                 }
-            } else if ("multiple_choice".equals(type)) {
-                PreparedStatement mcPstmt = connection.prepareStatement(
-                    "SELECT correct_answer_index FROM multiple_choice_questions WHERE questionid = ?"
-                );
+                type = rs.getString("type");
+                prompt = rs.getString("prompt");
+            }
+        // The first ResultSet is closed before these queries begin
+        if ("entry".equals(type)) {
+            String entrySql = "SELECT correct_answer " + "FROM entry_questions " + "WHERE questionid = ?";
+            try (PreparedStatement entryPstmt = connection.prepareStatement(entrySql)) {
+                entryPstmt.setString(1, questionId);
+                try (ResultSet entryRs = entryPstmt.executeQuery()) {
+                    if (entryRs.next()) {
+                        String correctAnswer = entryRs.getString("correct_answer");
+                        return new EntryQuestion(questionId, prompt, correctAnswer);
+                    }
+                }
+            }
+        } else if ("multiple_choice".equals(type)) {
+            String multipleChoiceSql = "SELECT correct_answer_index " + "FROM multiple_choice_questions " + "WHERE questionid = ?";
+            int correctAnswerIndex;
+            try (PreparedStatement mcPstmt = connection.prepareStatement(multipleChoiceSql)) {
                 mcPstmt.setString(1, questionId);
-                ResultSet mcRs = mcPstmt.executeQuery();
-                if (mcRs.next()) {
-                    int correctAnswerIndex = mcRs.getInt("correct_answer_index");
-                    ArrayList<String> options = new ArrayList<>();
-                    PreparedStatement optionsPstmt = connection.prepareStatement(
-                        "SELECT optionText FROM multiple_choice_options WHERE questionid = ? ORDER BY optionIndex"
-                    );
-                    optionsPstmt.setString(1, questionId);
-                    ResultSet optionsRs = optionsPstmt.executeQuery();
+                try (ResultSet mcRs = mcPstmt.executeQuery()) {
+                    if (!mcRs.next()) {
+                        return null;
+                    }
+                    correctAnswerIndex = mcRs.getInt("correct_answer_index");
+                }
+            }
+            ArrayList<String> options = new ArrayList<>();
+            String optionsSql = "SELECT optionText " + "FROM multiple_choice_options " + "WHERE questionid = ? " + "ORDER BY optionIndex";
+            try (PreparedStatement optionsPstmt = connection.prepareStatement(optionsSql)) {
+                optionsPstmt.setString(1, questionId);
+                try (ResultSet optionsRs = optionsPstmt.executeQuery()) {
                     while (optionsRs.next()) {
                         options.add(optionsRs.getString("optionText"));
                     }
-                    return new MultipleChoiceQuestion(questionId, prompt, options, correctAnswerIndex);
                 }
             }
-
-            return null; // If the type is unrecognized or no specific data found
-        } catch (SQLException e) {
-            System.err.println("Error retrieving question: " + e.getMessage());
-            return null;
+            return new MultipleChoiceQuestion(questionId, prompt, options, correctAnswerIndex);
         }
+        return null;
+    } catch (SQLException e) {
+        System.err.println("Error retrieving question: " + e.getMessage());
+        return null;
+    }
     }
 
     public ArrayList<Question> getQuestionsBySubModuleId(String subModuleId) {
-        if (subModuleId == null || subModuleId.isEmpty()) {
+        if (subModuleId == null || subModuleId.isBlank()) {
             throw new IllegalArgumentException("SubModule ID cannot be null or empty");
         }
-        ArrayList<Question> questions = new ArrayList<>();
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(
-                "SELECT questionid FROM questions WHERE submoduleid = ?"
-            );
+        ArrayList<String> questionIds = new ArrayList<>();
+        String sql = "SELECT questionid " + "FROM questions " + "WHERE submoduleid = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, subModuleId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                String questionId = rs.getString("questionid");
-                Question question = getQuestionById(questionId);
-                if (question != null) {
-                    questions.add(question);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    questionIds.add(rs.getString("questionid"));
                 }
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving questions for submodule: " + e.getMessage());
+            return new ArrayList<>();
+        }
+        // The original ResultSet and statement are now closed
+        ArrayList<Question> questions = new ArrayList<>();
+        for (String questionId : questionIds) {
+            Question question = getQuestionById(questionId);
+            if (question != null) {
+                questions.add(question);
+            }
         }
         return questions;
     }
