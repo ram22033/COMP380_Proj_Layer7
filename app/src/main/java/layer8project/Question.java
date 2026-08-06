@@ -5,7 +5,7 @@ package layer8project;
 
 public abstract class Question {
     private String ID; // Unique identifier for the question (Database reference)
-    private String prompt; // The question text
+    protected String prompt; // The question text
 
     public Question(String ID, String prompt) {
         // Check for null or empty values for ID and prompt

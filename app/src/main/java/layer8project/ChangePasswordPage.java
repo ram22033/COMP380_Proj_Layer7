@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,6 +13,27 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+
+/**
+ * ChangePasswordPage.java
+ *
+ * Provides the graphical user interface that allows users to securely
+ * change their account password within the Layer7 learning management system.
+ *
+ * Main Features:
+ * - Verify the user's current password
+ * - Validate the new password
+ * - Confirm the new password before updating
+ * - Display validation and success/error messages
+ *
+ * This page communicates with UserManager to validate user credentials
+ * and update password information. All authentication and database
+ * operations are handled by the application's business logic layer.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
 
 public class ChangePasswordPage {
 

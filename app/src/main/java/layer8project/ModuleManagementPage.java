@@ -18,6 +18,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * ModuleManagementPage.java
+ *
+ * Provides the graphical user interface for administrators to manage
+ * learning modules, submodules, and questions within the Layer7
+ * learning management system.
+ *
+ * This page allows administrators to:
+ * - Create, edit, and delete learning modules
+ * - Create, edit, and delete submodules
+ * - Create, edit, and delete entry and multiple-choice questions
+ * - View and modify learning content stored in the database
+ * 
+ * The page communicates with ModuleManager to perform all
+ * database operations and does not directly access repository classes.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
+
 public class ModuleManagementPage {
     private final ModuleManager moduleManager;
     private JComboBox<String> moduleSelector;

@@ -19,6 +19,25 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+/**
+ * ModulesPage.java
+ *
+ * Provides the graphical interface that allows users to browse and
+ * complete learning modules within Layer7.
+ *
+ * Users can:
+ * - View unlocked and locked modules
+ * - Navigate through submodules
+ * - Read learning content
+ * - Track learning progress
+ *
+ * Module information is retrieved through ModuleManager and displayed
+ * using a tree-based navigation interface.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
+
 public class ModulesPage {
 
     private final User loggedInUser;

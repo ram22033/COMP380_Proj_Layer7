@@ -12,6 +12,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * AdminPage.java
+ *
+ * Provides the administrative interface for the Layer7 learning
+ * management system.
+ *
+ * Main Features:
+ * - Manage user accounts
+ * - Manage learning modules
+ * - Manage submodules
+ * - Manage entry and multiple-choice questions
+ * - Access administrative tools and system settings
+ *
+ * This page serves as the main dashboard for administrators and
+ * provides navigation to the various management pages. Business
+ * logic and database operations are performed through the appropriate
+ * manager classes rather than directly accessing the repositories.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
+
 public class AdminPage {
 
     public AdminPage(User loggedInUser,UserManager userManager,ModuleManager moduleManager,JFrame homeFrame) {

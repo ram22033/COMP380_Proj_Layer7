@@ -1,5 +1,23 @@
 package layer8project;
 
+/**
+ * App.java
+ *
+ * Serves as the entry point for the Layer7 learning management system.
+ *
+ * Responsibilities:
+ * - Initializes all repository objects
+ * - Creates the manager classes
+ * - Seeds the database with default data when necessary
+ * - Launches the application's login page
+ *
+ * This class is responsible for configuring the application's
+ * dependencies before presenting the user interface.
+ *
+ * @author Richard Mondragon
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 
 public class App {
     

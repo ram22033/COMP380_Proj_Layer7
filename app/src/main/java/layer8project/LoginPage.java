@@ -21,6 +21,21 @@ import javax.swing.JTextField;
 //import java.awt.*; is short for Abstract Window Tool and by adding this it allows the user to have a more basic framework of the GUI 
 //import java.awt.Color
 
+/**
+ * LoginPage.java
+ *
+ * Provides the login interface for Layer7.
+ *
+ * Users may log in, create a new account, recover account
+ * information, or reset their password through this page.
+ *
+ * User authentication is performed through UserManager,
+ * which communicates with the application's data layer.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
 
 public class LoginPage {
     

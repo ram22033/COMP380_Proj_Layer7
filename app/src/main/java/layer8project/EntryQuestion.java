@@ -1,8 +1,22 @@
 package layer8project;
 
-// This is a specific type of question that requires the user to input a text answer. The answer is then checked against the correct answer stored in the question object. The comparison is case-insensitive and ignores leading/trailing whitespace.
-// getCorrectAnswer, checkAnswer, changeCorrectAnswer, changePrompt
-
+/**
+ * EntryQuestion.java
+ *
+ * Represents a free-response question within the Layer7 learning
+ * management system.
+ *
+ * An EntryQuestion requires the user to enter a text response that
+ * is compared against the stored correct answer. Entry questions are
+ * used to assess a user's understanding of a learning topic without
+ * providing predefined answer choices.
+ *
+ * This class extends the Question class and implements the validation
+ * logic for free-response answers.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class EntryQuestion extends Question{
     private String correctAnswer; // The correct answer for the question
 
@@ -11,6 +25,13 @@ public class EntryQuestion extends Question{
         return input.trim().toLowerCase();
     }
 
+    /**
+ * Creates a new entry question.
+ *
+ * @param questionID the unique identifier for the question
+ * @param prompt the question presented to the user
+ * @param correctAnswer the correct response used for validation
+ */
     public EntryQuestion(String ID, String prompt, String correctAnswer) {
         super(ID, prompt);
         // Check for null or empty value for correctAnswer
@@ -20,6 +41,13 @@ public class EntryQuestion extends Question{
         this.correctAnswer = normalize(correctAnswer); // this should be normalized to ensure consistent comparison
     }
     
+    /**
+ * Determines whether the user's answer matches the stored
+ * correct answer.
+ *
+ * @param answer the user's submitted response
+ * @return {@code true} if the answer is correct; otherwise {@code false}
+ */
     public boolean checkAnswer(String answer) {
         // Check for null or empty value for answer
         if (answer == null || answer.isEmpty()) {
@@ -28,6 +56,11 @@ public class EntryQuestion extends Question{
         return normalize(answer).equals(correctAnswer);
     }
 
+    /**
+ * Updates the correct answer for this entry question.
+ *
+ * @param newCorrectAnswer the new correct answer
+ */
     public void changeCorrectAnswer(String newCorrectAnswer) {
         // Check for null or empty value for newCorrectAnswer
         if (newCorrectAnswer == null || newCorrectAnswer.isEmpty()) {
@@ -36,10 +69,20 @@ public class EntryQuestion extends Question{
         this.correctAnswer = normalize(newCorrectAnswer);
     }
 
+    /**
+ * Returns the correct answer for this question.
+ *
+ * @return the correct answer
+ */
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
+    /**
+ * Updates the question prompt displayed to the user.
+ *
+ * @param prompt the new question prompt
+ */
     public void changePrompt(String newPrompt) {
         // Check for null or empty value for newPrompt
         if (newPrompt == null || newPrompt.isEmpty()) {
