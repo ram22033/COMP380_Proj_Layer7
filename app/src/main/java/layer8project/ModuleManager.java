@@ -2,9 +2,43 @@ package layer8project;
 import java.util.ArrayList;
 import java.util.List;
 
-// This class manages the unlocking and completion of learning modules and submodules for users. It provides methods to purchase modules, unlock submodules, check if modules or submodules are unlocked or completed, and submit answers to questions. The class interacts with User, UserProgress, LearningModule, SubModule, and Question classes to facilitate user progress tracking and reward management.
-// purchaseModule, unlockSubModule, unlockNextSubModule, isModuleUnlocked, isSubModuleUnlocked, checkIfModuleCompleted, checkIfSubModuleCompleted, submitAnswer, canUserAccessSubModule, processCorrectAnswer, processSubModuleCompletion, processModuleCompletion
-
+/**
+ * Coordinates learning module operations within the Layer7
+ * learning management system.
+ *
+ * ModuleManager serves as the intermediary between the graphical
+ * user interface and the application's repository layer. It is
+ * responsible for validating requests, coordinating repository
+ * operations, and managing learning modules, submodules,
+ * questions, and user progress.
+ *
+ * Responsibilities:
+ * - Manage learning modules
+ * - Manage submodules
+ * - Manage questions
+ * - Manage user learning progress
+ * - Coordinate repository communication
+ * - Validate module-related operations
+ *
+ * Main Functions:
+ * - addModule()
+ * - updateModule()
+ * - deleteModule()
+ * - addSubModule()
+ * - updateSubModule()
+ * - deleteSubModule()
+ * - addEntryQuestion()
+ * - addMultipleChoiceQuestion()
+ * - updateEntryQuestion()
+ * - updateMultipleChoiceQuestion()
+ * - deleteQuestion()
+ * - purchaseModule()
+ * - unlockSubModule()
+ * - markModuleCompleted()
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class ModuleManager {
 
     private final UserRepository userRepository;
@@ -18,6 +52,15 @@ public class ModuleManager {
         this.questionRepository = questionRepository;
     }
 
+    /**
+     * Unlocks a learning module for a user after verifying
+     * sufficient account balance and updates the user's
+     * progress and account information.
+     * @param user
+     * @param userProgress
+     * @param module
+     * @return
+     */
     public boolean purchaseModule(User user, UserProgress userProgress, LearningModule module) {
         if (user == null || userProgress == null || module == null) {
             throw new IllegalArgumentException("User, progress, and module cannot be null");
@@ -124,6 +167,20 @@ public class ModuleManager {
         }
         return userProgress.isSubModuleCompleted(subModule.getSubModuleID());
     }
+
+
+    /**
+     * Validates a user's response to an entry question and,
+     * if correct, updates question, submodule, and module
+     * completion progress.
+     * @param user
+     * @param userProgress
+     * @param module
+     * @param subModule
+     * @param question
+     * @param userAnswer
+     * @return
+     */
     public boolean submitAnswer(User user,UserProgress userProgress,LearningModule module,SubModule subModule,EntryQuestion question,String userAnswer) {
 
         if (user == null || userProgress == null || module == null || subModule == null || question == null || userAnswer == null) {
@@ -146,6 +203,18 @@ public class ModuleManager {
         return true;
     }
 
+    /**
+     * Validates a user's selected answer for a multiple-choice
+     * question and updates learning progress when answered
+     * correctly.
+     * @param user
+     * @param userProgress
+     * @param module
+     * @param subModule
+     * @param question
+     * @param selectedChoiceIndex
+     * @return
+     */
     public boolean submitAnswer(User user, UserProgress userProgress, LearningModule module, SubModule subModule, MultipleChoiceQuestion question, int selectedChoiceIndex) {
 
         if (user == null || userProgress == null || module == null || subModule == null || question == null) {
@@ -167,6 +236,15 @@ public class ModuleManager {
         return true;
     }
 
+    /**
+     * Processes a correctly answered question by recording
+     * completion and updating user progress.
+     * @param user
+     * @param userProgress
+     * @param module
+     * @param subModule
+     * @param question
+     */
     private void processCorrectAnswer(User user, UserProgress userProgress, LearningModule module, SubModule subModule, Question question) {
         boolean newlyCompleted = userProgress.markQuestionCorrect(question.getID());
 
@@ -204,6 +282,14 @@ public class ModuleManager {
 
     }
 
+    /**
+     * Marks a submodule as completed and unlocks the next
+     * available submodule when appropriate.
+     * @param user
+     * @param userProgress
+     * @param module
+     * @param subModule
+     */
     private void processSubModuleCompletion(User user, UserProgress userProgress, LearningModule module, SubModule subModule) {
         if (!checkSubModuleCompletion(userProgress, subModule)) {
             return;
@@ -220,6 +306,14 @@ public class ModuleManager {
         unlockNextSubModule(user, userProgress, module, subModule);
     }
 
+
+   /**
+    * Marks a learning module as completed, awards the user
+    * the completion reward, and updates persistent data.
+    * @param user
+    * @param userProgress
+    * @param module
+    */
     private void processModuleCompletion(User user, UserProgress userProgress, LearningModule module) {
         if (!checkModuleCompletion(userProgress, module)) {
             return;
@@ -262,22 +356,48 @@ public class ModuleManager {
     public ArrayList<Question> getQuestionsBySubModuleId(String subModuleID) {
         return questionRepository.getQuestionsBySubModuleId(subModuleID);
     }
-    // Additional methods for managing modules, submodules, and questions can be added here as needed
+
+
+   /**
+    * Adds a new learning module to the database.
+    * @param module
+    * @return
+    */
     public boolean addModule(LearningModule module) {
         return moduleRepository.addModule(module);
     }
+
+
+   /**
+    * Updates an existing learning module.
+    * @param module
+    * @return
+    */
     public boolean updateModule(LearningModule module) {
         if (module == null) {
             throw new IllegalArgumentException("Module cannot be null");
         }
         return moduleRepository.updateModule(module);
     }
+
+
+   /**
+    * *Removes a learning module from the database.
+    * @param moduleID
+    * @return
+    */
     public boolean deleteModule(String moduleID) {
         if (moduleID == null || moduleID.isBlank()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");
         }
         return moduleRepository.deleteModule(moduleID);
     }
+    /**
+     * Adds a submodule to an existing learning module.
+     * @param moduleID
+     * @param subModule
+     * @return
+     */
     public boolean addSubModule(String moduleID, SubModule subModule) {
         if (moduleID == null || moduleID.isBlank()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");
@@ -320,7 +440,12 @@ public class ModuleManager {
         }
         return questionRepository.updateMultipleChoiceQuestion(question);
     }
-
+    
+    /**
+     * Removes a question from the database.
+     * @param questionID
+     * @return
+     */
     public boolean deleteQuestion(String questionID) {
         if (questionID == null || questionID.isBlank()) {
             throw new IllegalArgumentException("Question ID cannot be null or empty");
