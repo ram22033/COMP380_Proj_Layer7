@@ -8,12 +8,46 @@ import java.util.ArrayList;
 
 import org.sqlite.SQLiteDataSource;
 
-// This class represents a repository for managing user data in a SQLite database. It provides methods to add users, retrieve all users, find a specific user by username, and update a user's password. The class establishes a connection to the database and ensures that the necessary table for storing user information exists.
-// addUser, getAllUsers, findUser, updatePassword
-
+/**
+ * Manages database operations for user accounts within the
+ * Layer7 learning management system.
+ *
+ * UserRepository connects to the Layer7 SQLite database and
+ * provides methods for creating, retrieving, updating, and
+ * deleting user records. It stores account credentials, email
+ * addresses, roles, and account balances.
+ *
+ * Responsibilities:
+ * - Initialize the user database table
+ * - Add new user accounts
+ * - Retrieve all user accounts
+ * - Find users by username
+ * - Update passwords
+ * - Update account balances
+ * - Update email addresses
+ * - Update user roles
+ * - Delete user accounts
+ *
+ * Main Functions:
+ * - addUser()
+ * - getAllUsers()
+ * - findUser()
+ * - updatePassword()
+ * - updateBalance()
+ * - updateEmail()
+ * - updateRole()
+ * - deleteUser()
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class UserRepository {
     private Connection connection;
 
+    /**
+     * Creates a connection to the Layer7 SQLite database and
+     * initializes the users table if it does not already exist.
+     */
     public UserRepository() {
         try {
             SQLiteDataSource dataSource = new SQLiteDataSource();
@@ -36,6 +70,13 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Adds a new user account to the database.
+     * 
+     * @param user the user account to add
+     * @return {@code true} if the user was successfully inserted;
+     * otherwise {@code false}
+     */
     public boolean addUser(User user) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -54,6 +95,11 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Retrieves all user accounts stored in the database.
+     * 
+     * @return a list containing all stored users
+     */
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -75,6 +121,12 @@ public class UserRepository {
         return users;
     }
 
+    /**
+     * Retrieves a user account using its username.
+     * 
+     * @param username the username of the account to locate
+     * @return the matching user, or {@code null} if no account is found
+     */
     public User findUser(String username) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -99,6 +151,16 @@ public class UserRepository {
         }
         return null;
     }
+    /**
+     * Updates the stored password for a user account.
+     * 
+     * The supplied password should already be hashed before this method is called.
+     * 
+     * @param username the username of the account to update
+     * @param hashedPassword the new hashed password
+     * @return {@code true} if the password was successfully updated;
+     * otherwise {@code false}
+     */
     public boolean updatePassword(String username, String hashedPassword) {
     try {
         PreparedStatement stmt = connection.prepareStatement(
@@ -114,6 +176,14 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Updates the account balance for a user.
+     * 
+     * @param username the username of the account to update
+     * @param newBalance the new account balance
+     * @return {@code true} if the balance was successfully updated;
+     * otherwise {@code false}
+     */
     public boolean updateBalance(String username, double newBalance) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -129,6 +199,14 @@ public class UserRepository {
             }
     }
 
+    /**
+     * Updates the email address associated with a user account.
+     * 
+     * @param username the username of the account to update
+     * @param newEmail the new email address
+     * @return {@code true} if the email was successfully updated;
+     * otherwise {@code false}
+     */
     public boolean updateEmail(String username, String newEmail){
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE users SET email = ? WHERE username = ?");
@@ -143,6 +221,14 @@ public class UserRepository {
 
     }
 
+    /**
+     * Updates the assigned role for a user account.
+     * 
+     * @param username the username of the account to update
+     * @param newRole the new role assigned to the user
+     * @return {@code true} if the role was successfully updated;
+     * otherwise {@code false}
+     */
     public boolean updateRole(String username, Role newRole) {
         try {
             PreparedStatement stmt = connection.prepareStatement("UPDATE users SET role = ? WHERE username = ?");
@@ -156,6 +242,13 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Deletes a user account from the database.
+     * 
+     * @param username the username of the account to delete
+     * @return {@code true} if the user was successfully deleted;
+     * otherwise {@code false}
+     */
     public boolean deleteUser(String username) {
         try {
             PreparedStatement stmt = connection.prepareStatement("DELETE FROM users WHERE username = ?");

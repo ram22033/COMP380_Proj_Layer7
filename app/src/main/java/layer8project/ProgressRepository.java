@@ -7,12 +7,45 @@ import java.sql.Statement;
 
 import org.sqlite.SQLiteDataSource;
 
-// This class serves as a repository for managing user progress data in the database. It provides methods to save and load user progress, including unlocked and completed modules, submodules, and questions. The class interacts with the SQLite database to perform CRUD operations on user progress data, ensuring that user progress is stored and retrieved efficiently.
-// saveUnlockedModule, saveCompletedModule, saveUnlockedSubModule, saveCompletedSubModule, saveCompletedQuestion, loadUserProgress
-
+/**
+ * Manages database operations related to user learning progress
+ * within the Layer7 learning management system.
+ *
+ * ProgressRepository stores and retrieves information about a
+ * user's unlocked modules, completed modules, unlocked
+ * submodules, completed submodules, and completed questions.
+ * It also initializes the database tables used to persist
+ * learning progress.
+ *
+ * Responsibilities:
+ * - Initialize progress database tables
+ * - Save unlocked learning modules
+ * - Save completed learning modules
+ * - Save unlocked submodules
+ * - Save completed submodules
+ * - Save completed questions
+ * - Load user learning progress
+ *
+ * Main Functions:
+ * - saveUnlockedModule()
+ * - saveCompletedModule()
+ * - saveUnlockedSubModule()
+ * - saveCompletedSubModule()
+ * - saveCompletedQuestion()
+ * - loadUserProgress()
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class ProgressRepository {
     private Connection connection;
 
+    /**
+     * Creates a connection to the Layer7 SQLite database and
+     * initializes the tables used to store user learning progress.
+     * 
+     * @throws RuntimeException if the database cannot be initialized
+     */
     public ProgressRepository() {
 
         try {
@@ -96,6 +129,14 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Records that a user has unlocked a learning module.
+     * @param userID userID the unique identifier of the user
+     * @param moduleID the unique identifier of the unlocked module
+     * @return {@code true} if the record was successfully saved;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if either identifier is invalid
+     */
     public boolean saveUnlockedModule(String userID, String moduleID) {
         if (userID == null || userID.isEmpty() || moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("User ID and Module ID cannot be null or empty");
@@ -111,6 +152,14 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Records that a user has completed a learning module.
+     * @param userID the unique identifier of the user
+     * @param moduleID the unique identifier of the completed module
+     * @return {@code true} if the record was successfully saved;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if either identifier is invalid
+     */
     public boolean saveCompletedModule(String userID, String moduleID) {
         if (userID == null || userID.isEmpty() || moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("User ID and Module ID cannot be null or empty");
@@ -126,6 +175,14 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Records that a user has unlocked a submodule.
+     * @param userID the unique identifier of the user
+     * @param subModuleID the unique identifier of the unlocked submodule
+     * @return {@code true} if the record was successfully saved;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if either identifier is invalid
+     */
     public boolean saveUnlockedSubModule(String userID, String subModuleID) {
         if (userID == null || userID.isEmpty() || subModuleID == null || subModuleID.isEmpty()) {
             throw new IllegalArgumentException("User ID and SubModule ID cannot be null or empty");
@@ -141,6 +198,14 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Records that a user has completed a submodule.
+     * @param userID the unique identifier of the user
+     * @param subModuleID the unique identifier of the completed submodule
+     * @return {@code true} if the record was successfully saved;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if either identifier is invalid
+     */
     public boolean saveCompletedSubModule(String userID, String subModuleID) {
         if (userID == null || userID.isEmpty() || subModuleID == null || subModuleID.isEmpty()) {
             throw new IllegalArgumentException("User ID and SubModule ID cannot be null or empty");
@@ -156,6 +221,14 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Records that a user has correctly completed a question.
+     * @param userID the unique identifier of the user
+     * @param questionID the unique identifier of the completed question
+     * @return {@code true} if the record was successfully saved;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if either identifier is invalid
+     */
     public boolean saveCompletedQuestion(String userID, String questionID) {
         if (userID == null || userID.isEmpty() || questionID == null || questionID.isEmpty()) {
             throw new IllegalArgumentException("User ID and Question ID cannot be null or empty");
@@ -171,6 +244,16 @@ public class ProgressRepository {
         }
     }
 
+    /**
+     * Loads all saved learning progress for a user.
+     * 
+     * The returned UserProgress object includes unlocked modules,
+     * completed modules, unlocked submodules, completed submodules,
+     * and completed questions.
+     * @param userID userID the unique identifier of the user
+     * @return the user's learning progress
+     * @throws IllegalArgumentException if the user ID is invalid
+     */
     public UserProgress loadUserProgress(String userID) {
         if (userID == null || userID.isEmpty()) {
             throw new IllegalArgumentException("User ID cannot be null or empty");

@@ -8,12 +8,47 @@ import java.util.ArrayList;
 
 import org.sqlite.SQLiteDataSource;
 
-// This class serves as a repository for managing questions in the database. It provides methods to add, retrieve, update, and delete both entry and multiple choice questions. The class interacts with the SQLite database to perform CRUD operations on the questions and their associated data, ensuring that questions are stored and retrieved efficiently.
-// addEntryQuestion, addMultipleChoiceQuestion, getQuestionById, getQuestionsBySubModuleId, updateEntryQuestion, updateMultipleChoiceQuestion, deleteQuestion
-
+/**
+ * Manages database operations for questions within the Layer7
+ * learning management system.
+ *
+ * QuestionRepository stores and retrieves entry questions and
+ * multiple-choice questions. It also manages question prompts,
+ * correct answers, multiple-choice options, and the relationship
+ * between questions and submodules.
+ *
+ * Responsibilities:
+ * - Initialize question-related database tables
+ * - Add entry questions
+ * - Add multiple-choice questions
+ * - Retrieve individual questions
+ * - Retrieve questions associated with a submodule
+ * - Update entry and multiple-choice questions
+ * - Delete questions
+ * - Preserve question-to-submodule relationships
+ *
+ * Main Functions:
+ * - addEntryQuestion()
+ * - addMultipleChoiceQuestion()
+ * - getQuestionById()
+ * - getQuestionsBySubModuleId()
+ * - updateEntryQuestion()
+ * - updateMultipleChoiceQuestion()
+ * - deleteQuestion()
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class QuestionRepository {
     private Connection connection;
 
+    /**
+     * Creates a connection to the Layer7 SQLite database and initializes
+     * the tables used to store questions, entry answers, multiple-choice
+     * answers, and multiple-choice options.
+     * 
+     * @throws RuntimeException if the database cannot be initialized
+     */
     public QuestionRepository() {
         try {
             SQLiteDataSource dataSource = new SQLiteDataSource();
@@ -65,6 +100,17 @@ public class QuestionRepository {
         }
     }
     
+    /**
+     * Adds an entry question to a submodule.
+     * 
+     * The question's shared information is stored in the main questions
+     * table, while its correct answer is stored in the entry-question table.
+     * @param question the entry question to add
+     * @param subModuleId the identifier of the parent submodule
+     * @return {@code true} if the question was successfully added;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the question or submodule ID is invalid
+     */
     public boolean addEntryQuestion(EntryQuestion question, String subModuleId) {
         if (question == null || subModuleId == null || subModuleId.isEmpty()) {
             throw new IllegalArgumentException("Question and SubModule ID cannot be null or empty");
@@ -97,6 +143,18 @@ public class QuestionRepository {
         }
     }
 
+    /**
+     * Adds a multiple-choice question to a submodule.
+     * 
+     * The method stores the question prompt, correct-answer index,
+     * and all available answer options in their related database tables.
+     * 
+     * @param question the multiple-choice question to add
+     * @param subModuleId the identifier of the parent submodule
+     * @return {@code true} if the question was successfully added;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the question or submodule ID is invalid
+     */
     public boolean addMultipleChoiceQuestion(MultipleChoiceQuestion question, String subModuleId) {
         if (question == null || subModuleId == null || subModuleId.isEmpty()) {
             throw new IllegalArgumentException("Question and SubModule ID cannot be null or empty");
@@ -141,6 +199,16 @@ public class QuestionRepository {
         }
     }
 
+    /**
+     * Retrieves a question using its unique identifier.
+     * 
+     * The method determines the stored question type and reconstructs
+     * either an EntryQuestion or MultipleChoiceQuestion object.
+     * 
+     * @param questionId the unique identifier of the question
+     * @return the matching question, or {@code null} if no question is found
+     * @throws IllegalArgumentException if the question ID is invalid
+     */
     public Question getQuestionById(String questionId) {
         if (questionId == null || questionId.isBlank()) {
             throw new IllegalArgumentException("Question ID cannot be null or empty");
@@ -200,6 +268,13 @@ public class QuestionRepository {
     }
     }
 
+    /**
+     * Retrieves all questions associated with a submodule.
+     * 
+     * @param subModuleId the unique identifier of the parent submodule
+     * @return a list containing all questions assigned to the submodule
+     * @throws IllegalArgumentException if the submodule ID is invalid
+     */
     public ArrayList<Question> getQuestionsBySubModuleId(String subModuleId) {
         if (subModuleId == null || subModuleId.isBlank()) {
             throw new IllegalArgumentException("SubModule ID cannot be null or empty");
@@ -288,6 +363,14 @@ public class QuestionRepository {
         return options;
     }
 
+    /**
+     * Updates the prompt and correct answer of an entry question.
+     * 
+     * @param question the entry question containing the updated values
+     * @return {@code true} if the question was successfully updated;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the question is {@code null}
+     */
     public boolean updateEntryQuestion(EntryQuestion question) {
         if (question == null) {
             throw new IllegalArgumentException("Question cannot be null");
@@ -318,6 +401,17 @@ public class QuestionRepository {
         }
     }
 
+    /**
+     * Updates a multiple-choice question.
+     * 
+     * The method updates the prompt and correct-answer index, removes
+     * the previously stored options, and inserts the updated option list.
+     * 
+     * @param question the multiple-choice question containing updated values
+     * @return {@code true} if the question was successfully updated;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the question is {@code null}
+     */
     public boolean updateMultipleChoiceQuestion(MultipleChoiceQuestion question) {
         if (question == null) {
             throw new IllegalArgumentException("Question cannot be null");
@@ -368,6 +462,17 @@ public class QuestionRepository {
         }
     }
 
+    /**
+     * Deletes a question from the database.
+     * 
+     * Related entry-question data, multiple-choice data, and options
+     * are removed through foreign-key cascade relationships.
+     * 
+     * @param questionId the unique identifier of the question to delete
+     * @return {@code true} if the question was successfully deleted;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the question ID is invalid
+     */
     public boolean deleteQuestion(String questionId) {
         if (questionId == null || questionId.isEmpty()) {
             throw new IllegalArgumentException("Question ID cannot be null or empty");

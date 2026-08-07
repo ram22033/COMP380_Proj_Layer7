@@ -78,18 +78,6 @@ public class EntryQuestion extends Question{
         return correctAnswer;
     }
 
-    /**
- * Updates the question prompt displayed to the user.
- *
- * @param prompt the new question prompt
- */
-    public void changePrompt(String newPrompt) {
-        // Check for null or empty value for newPrompt
-        if (newPrompt == null || newPrompt.isEmpty()) {
-            throw new IllegalArgumentException("New prompt cannot be null or empty");
-        }
-        super.setPrompt(newPrompt);
-    }
 
 
 
