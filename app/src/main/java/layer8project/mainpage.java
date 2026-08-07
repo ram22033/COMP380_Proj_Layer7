@@ -3,15 +3,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.GridLayout;
 
 
@@ -47,6 +49,30 @@ public mainpage(
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         formPanel.setMaximumSize(new Dimension(300,250));
 
+        //Search Bar
+        JTextField searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension(200,30));
+        searchField.setMaximumSize(new Dimension(220,30));
+        searchField.setToolTipText("Search Modules...");
+        
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBackground(new Color(30,30,30));
+
+        searchPanel.add(searchField);
+
+        //Settings
+        JButton settingbutton = new JButton("⚙");
+        settingbutton.setFont(settingbutton.getFont().deriveFont(22f));
+        settingbutton.setPreferredSize(new Dimension(65,45));
+        settingbutton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+        settingbutton.setFocusPainted(false);
+        settingbutton.setBorderPainted(false);
+        settingbutton.setContentAreaFilled(false);
+        settingbutton.setOpaque(false);
+        settingbutton.setForeground(Color.WHITE);
+
         //Logo
         ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
         Image scaled = logo.getImage().getScaledInstance(140,40,Image.SCALE_SMOOTH);
@@ -54,6 +80,10 @@ public mainpage(
 
         //Profile Button
         JButton profilebutton = new JButton("👤");
+        profilebutton.setFont(profilebutton.getFont().deriveFont(22f));
+        profilebutton.setPreferredSize(new Dimension(65,45));
+        profilebutton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
         profilebutton.setFocusPainted(false);
         profilebutton.setBorderPainted(false);
         profilebutton.setContentAreaFilled(false);
@@ -71,20 +101,29 @@ public mainpage(
                 frame);
         }); 
 
+        //rightPanel Buttons
+        JPanel rightPanel = new JPanel(
+            new FlowLayout(FlowLayout.RIGHT,5,0)
+            );
+
+        rightPanel.setOpaque(false);
+        rightPanel.add(settingbutton);
+        rightPanel.add(profilebutton);
+
         JPanel moduleGrid = new JPanel(new GridLayout(3,3,30,30));
         moduleGrid.setBackground(new Color (30,30,30));
         moduleGrid.setBorder( 
             javax.swing.BorderFactory.createEmptyBorder(50, 100, 50, 100)
         );
 
-        JButton module1 = createModuleButton("Module 1");
-        JButton module2 = createModuleButton("Module 2");
-        JButton module3 = createModuleButton("Module 3");
-        JButton module4 = createModuleButton("Module 4");
-        JButton module5 = createModuleButton("Module 5");
-        JButton module6 = createModuleButton("Module 6");
-        JButton module7 = createModuleButton("Module 7");
-        JButton module8 = createModuleButton("Module 8");
+        JButton module1 = createModuleButton("Cyber Security Foundations");
+        JButton module2 = createModuleButton("Networking Basics");
+        JButton module3 = createModuleButton("Linux Foundation");
+        JButton module4 = createModuleButton("Window's Administration");
+        JButton module5 = createModuleButton("Security Monitoring");
+        JButton module6 = createModuleButton("Penetration Testing");
+        JButton module7 = createModuleButton("Digital Forenscics Incident Response");
+        JButton module8 = createModuleButton("Cryptography");
         JButton module9 = createModuleButton("Module 9");
 
         moduleGrid.add(module1);
@@ -98,9 +137,9 @@ public mainpage(
         moduleGrid.add(module9);
 
 
-
         headerpanel.add(logoLabel,BorderLayout.WEST);
-        headerpanel.add(profilebutton, BorderLayout.EAST);
+        headerpanel.add(searchPanel, BorderLayout.CENTER);
+        headerpanel.add(rightPanel, BorderLayout.EAST);
 
         frame.add(headerpanel, BorderLayout.NORTH);
         frame.add(moduleGrid, BorderLayout.CENTER);
@@ -115,7 +154,6 @@ public mainpage(
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setOpaque(true);
-        button.setContentAreaFilled(true);
         button.setContentAreaFilled(true);
 
         button.setBorder(
