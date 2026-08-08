@@ -15,7 +15,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-
+/**
+ * Provides the user profile interface for the Layer7 learning
+ * management system.
+ *
+ * Main Features:
+ * - Display user account information
+ * - View account details
+ * - Update profile information
+ * - Change account password
+ * - Return to the Home Page
+ *
+ * This page communicates with UserManager to retrieve and update
+ * user account information. All authentication and database
+ * operations are handled through the application's business logic
+ * layer.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
 public class ProfilePage {
 
     public ProfilePage(User loggedInUser, UserProgress userProgress, UserManager userManager, JFrame homeFrame)  {

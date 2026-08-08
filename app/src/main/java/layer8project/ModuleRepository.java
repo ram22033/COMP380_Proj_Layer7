@@ -8,12 +8,50 @@ import java.util.ArrayList;
 
 import org.sqlite.SQLiteDataSource;
 
-// This class serves as a repository for managing LearningModule and SubModule objects in a SQLite database. It provides methods to add, retrieve, update, and delete modules and submodules, as well as to retrieve all modules or submodules associated with a specific module. The class ensures that the database schema is created if it does not already exist and handles SQL exceptions appropriately.
-// addModule, addSubModule, getModuleById, getSubModuleById, updateModule, updateSubModule, deleteModule, deleteSubModule, getAllModules, getSubModules
-
+/**
+ * Manages database operations for learning modules and submodules
+ * within the Layer7 learning management system.
+ *
+ * ModuleRepository connects to the Layer7 SQLite database and provides
+ * methods for creating, retrieving, updating, and deleting learning
+ * modules and submodules. It also initializes the required database
+ * tables and maintains the relationship between modules and their
+ * associated submodules.
+ *
+ * Responsibilities:
+ * - Initialize module and submodule database tables
+ * - Add learning modules and submodules
+ * - Retrieve modules and submodules from the database
+ * - Update stored module and submodule information
+ * - Delete modules and submodules
+ * - Preserve module-to-submodule relationships
+ *
+ * Main Functions:
+ * - addModule()
+ * - addSubModule()
+ * - getModuleById()
+ * - getSubModuleById()
+ * - updateModule()
+ * - updateSubModule()
+ * - deleteModule()
+ * - deleteSubModule()
+ * - getAllModules()
+ * - getSubModules()
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class ModuleRepository {
     private Connection connection;
-
+    
+    
+    /**
+     * Creates a repository connection to the Layer7 SQLite database
+     * and initializes the learning module and submodule tables if
+     * they do not already exist.
+     * 
+     * @throws RuntimeException if the database connection or table initialization fails
+     */
     public ModuleRepository() {
 
         try {
@@ -52,6 +90,13 @@ public class ModuleRepository {
         }
     }
 
+    /**
+     * Adds a new learning module to the database.
+     * @param module the learning module to add
+     * @return {@code true} if the module was successfully inserted;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the module is {@code null}
+     */
     public boolean addModule(LearningModule module) {
         if (module == null) {
             throw new IllegalArgumentException("Module cannot be null");
@@ -71,6 +116,14 @@ public class ModuleRepository {
         }
     }
 
+    /**
+     * Adds a new submodule to an existing learning module.
+     * @param moduleID Module adding submodule to
+     * @param subModule the submodule to add
+     * @return {@code true} if the submodule was successfully inserted;
+     * otherwise {@code false}
+     * @throws IllegalArgumentException if the module ID is invalid or the submodule is {@code null}
+     */
     public boolean addSubModule(String moduleID, SubModule subModule) {
         if (subModule == null || moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("SubModule and moduleID cannot be null or empty");
@@ -91,6 +144,12 @@ public class ModuleRepository {
     }
 
     // getModuleById
+    /**
+     * Retrieves a learning module using its unique identifier.
+     * @param moduleID the unique identifier of the module
+     * @return the matching learning module, or {@code null} if no matching module is found
+     * @throws IllegalArgumentException if the module ID is null or empty
+     */
     public LearningModule getModuleById(String moduleID) {
         if (moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");
@@ -116,6 +175,12 @@ public class ModuleRepository {
     }
 
     // getSubModuleById
+    /**
+     * Retrieves a submodule using its unique identifier.
+     * @param subModuleID the unique identifier of the submodule
+     * @return the matching submodule, or {@code null} if no matching submodule is found
+     * @throws IllegalArgumentException if the submodule ID is null or empty
+     */
     public SubModule getSubModuleById(String subModuleID) {
         if (subModuleID == null || subModuleID.isEmpty()) {
             throw new IllegalArgumentException("SubModule ID cannot be null or empty");
@@ -140,6 +205,12 @@ public class ModuleRepository {
     }
 
     // updateModule
+    /**
+     * Updates the title, description, unlock price, and completion reward of an existing learning module.
+     * @param module the learning module containing the updated values
+     * @return {@code true} if the module was successfully updated; otherwise {@code false}
+     * @throws IllegalArgumentException if the module is {@code null}
+     */
     public boolean updateModule(LearningModule module) {
         if (module == null) {
             throw new IllegalArgumentException("Module cannot be null");
@@ -159,6 +230,12 @@ public class ModuleRepository {
         }
     }
 
+    /**
+     * Updates the title, description, and display order of an existing submodule.
+     * @param subModule the submodule containing the updated values
+     * @return {@code true} if the submodule was successfully updated; otherwise {@code false}
+     * @throws IllegalArgumentException if the submodule is {@code null}
+     */
     // updateSubModule
     public boolean updateSubModule(SubModule subModule) {
         if (subModule == null) {
@@ -179,6 +256,14 @@ public class ModuleRepository {
     }
 
     // deleteModule
+    /**
+     * Deletes a learning module from the database.
+     * Associated submodules are also deleted through the database
+     * foreign-key cascade relationship.
+     * @param moduleID the unique identifier of the module to delete
+     * @return {@code true} if the module was successfully deleted; otherwise {@code false}
+     * @throws IllegalArgumentException if the module ID is null or empty
+     */
     public boolean deleteModule(String moduleID) {
         if (moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");
@@ -195,6 +280,12 @@ public class ModuleRepository {
     }
 
     // deleteSubModule
+    /**
+     * Deletes a submodule from the database.
+     * @param subModuleID the unique identifier of the submodule to delete
+     * @return {@code true} if the submodule was successfully deleted; otherwise {@code false}
+     * @throws IllegalArgumentException if the submodule ID is null or empty
+     */
     public boolean deleteSubModule(String subModuleID) {
         if (subModuleID == null || subModuleID.isEmpty()) {
             throw new IllegalArgumentException("SubModule ID cannot be null or empty");
@@ -211,6 +302,10 @@ public class ModuleRepository {
     }
 
     // getAllModules
+    /**
+     * Retrieves all learning modules stored in the database.
+     * @return a list containing all stored learning modules
+     */
     public ArrayList<LearningModule> getAllModules() {
         String sql = "SELECT * FROM learning_modules";
         ArrayList<LearningModule> modules = new ArrayList<>();
@@ -232,6 +327,13 @@ public class ModuleRepository {
     }
 
     // getSubModules
+    /**
+     * Retrieves all submodules associated with a learning module.
+     * The returned submodules are ordered by their configured submodule order.
+     * @param moduleID the unique identifier of the parent module
+     * @return a list containing the module's submodules
+     * @throws IllegalArgumentException if the module ID is null or empty
+     */
     public ArrayList<SubModule> getSubModules(String moduleID) {
         if (moduleID == null || moduleID.isEmpty()) {
             throw new IllegalArgumentException("Module ID cannot be null or empty");

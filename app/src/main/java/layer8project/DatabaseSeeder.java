@@ -3,10 +3,32 @@ import java.util.ArrayList;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-// This is a DatabaseSeeder that is meant to add Modules into the Database upon starting the program
-// Currently these are filled with examples and will need to be changed
-
+/**
+ * Populates the Layer7 database with default application data during
+ * initialization.
+ *
+ * Main Responsibilities:
+ * - Create the default administrator account
+ * - Insert default learning modules
+ * - Insert default submodules
+ * - Insert default questions and answer choices
+ * - Prevent duplicate seed data from being inserted
+ *
+ * This class is intended to be executed during application startup
+ * to ensure the database contains the minimum required data for
+ * administrators and users to interact with the system.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class DatabaseSeeder {
+    /**
+ * Inserts the default learning modules, submodules, and questions
+ * into the database if they have not already been created.
+ *
+ * @param moduleRepository the repository used to manage learning modules
+ * @param questionRepository the repository used to manage questions
+ */
     public static void seedModules(ModuleRepository moduleRepository,  QuestionRepository questionRepository){
         
         ////////////// MODULE 1 ////////////
@@ -86,7 +108,12 @@ public class DatabaseSeeder {
 
     }
     
-    // Creates default ADMIN
+    /**
+ * Inserts the default administrator account into the database
+ * if it does not already exist.
+ *
+ * @param userRepository the repository used to access user records
+ */
     public static void seedAdmin(UserRepository userRepository) {
         // Only create the admin if it does not already exist
         if (userRepository.findUser("admin") == null) {
