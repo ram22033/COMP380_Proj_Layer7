@@ -1,8 +1,41 @@
 package layer8project;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+/**
+ * Provides the graphical user interface that allows users to reset
+ * their account password if they have forgotten it.
+ *
+ * Main Features:
+ * - Verify the user's account information
+ * - Validate password reset information
+ * - Allow users to create a new password
+ * - Display success and error messages during the reset process
+ *
+ * This page communicates with UserManager to verify user information
+ * and securely update account credentials. All authentication and
+ * database operations are handled through the application's business
+ * logic layer.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
 public class ForgotPassword {
     public ForgotPassword(JFrame loginFrame, UserManager userManager) {
 

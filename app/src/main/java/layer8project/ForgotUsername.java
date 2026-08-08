@@ -15,6 +15,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Provides the graphical user interface that allows users to recover
+ * their account username within the Layer7 learning management system.
+ *
+ * Main Features:
+ * - Verify the user's account information
+ * - Retrieve the associated username
+ * - Display the recovered username to the user
+ * - Display success and error messages during the recovery process
+ *
+ * This page communicates with UserManager to verify user information
+ * and retrieve account credentials. All authentication and database
+ * operations are handled through the application's business logic layer.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
+
 public class ForgotUsername {
 
     public ForgotUsername(JFrame loginFrame, UserManager userManager) { 

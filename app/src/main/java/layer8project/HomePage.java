@@ -15,6 +15,26 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Provides the main user dashboard for the Layer7 learning
+ * management system after a successful login.
+ *
+ * Main Features:
+ * - Display user account information
+ * - View available learning modules
+ * - Access profile management
+ * - Monitor learning progress
+ * - Navigate to other areas of the application
+ * - Log out of the system
+ *
+ * This page serves as the primary navigation hub for users and
+ * communicates with the application's manager classes to retrieve
+ * user information, learning content, and progress data.
+ *
+ * @author Thien Nguyen
+ * @author Sean Tiu
+ * @since August 2026
+ */
 public class HomePage {
 
     public HomePage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, ProgressRepository progressRepository) {
