@@ -1,18 +1,25 @@
 package layer8project;
 
 /**
- * EntryQuestion.java
+ * Represents a free-response question within the Layer7
+ * learning management system.
  *
- * Represents a free-response question within the Layer7 learning
- * management system.
+ * A free-response question requires the user to enter a text
+ * response that is compared against the stored correct answer.
+ * Unlike multiple-choice questions, users must supply their
+ * own answer rather than selecting from predefined options.
  *
- * An EntryQuestion requires the user to enter a text response that
- * is compared against the stored correct answer. Entry questions are
- * used to assess a user's understanding of a learning topic without
- * providing predefined answer choices.
+ * Responsibilities:
+ * - Store the correct answer
+ * - Validate user responses
+ * - Update the correct answer
+ * - Update the question prompt
  *
- * This class extends the Question class and implements the validation
- * logic for free-response answers.
+ * Main Functions:
+ * - validateAnswer()
+ * - changeAnswer()
+ * - changePrompt()
+ * - getCorrectAnswer()
  *
  * @author Christopher Sparks
  * @since August 2026
@@ -28,7 +35,7 @@ public class EntryQuestion extends Question{
     /**
  * Creates a new entry question.
  *
- * @param questionID the unique identifier for the question
+ * @param ID the unique identifier for the question
  * @param prompt the question presented to the user
  * @param correctAnswer the correct response used for validation
  */
@@ -77,11 +84,5 @@ public class EntryQuestion extends Question{
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-
-
-
-
-
-
 
 }
