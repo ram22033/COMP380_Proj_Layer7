@@ -48,7 +48,7 @@ public class ModulesPage {
     private JPanel contentPanel;
     private JLabel contentTitle;
     private JTextArea contentText;
-    public ModulesPage(User loggedInUser, UserProgress userProgress, ModuleManager moduleManager, JFrame homeFrame) {
+    public ModulesPage(User loggedInUser, UserProgress userProgress, ModuleManager moduleManager, LearningModule selectedModule, JFrame homeFrame) {
         this.loggedInUser = loggedInUser;
         this.userProgress = userProgress;
         this.moduleManager = moduleManager;

@@ -1,11 +1,11 @@
 package layer8project;
 
-import org.mindrot.jbcrypt.BCrypt;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class SignupPage {
 
@@ -108,11 +110,15 @@ public class SignupPage {
 
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             User newUser = new User(newUsername, hashedPassword, Role.USER);
-            repository.addUser(newUser);
-
-            JOptionPane.showMessageDialog(frame, "Account created! You can now log in.");
-            frame.dispose();
-            loginFrame.setVisible(true);
+            boolean success = repository.addUser(newUser);
+            if (success) {
+                JOptionPane.showMessageDialog(frame,"Account created! You can now log in.");
+                frame.dispose();
+                loginFrame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(frame,"Unable to create account.");
+            }
+            
         });
 
         // Back button

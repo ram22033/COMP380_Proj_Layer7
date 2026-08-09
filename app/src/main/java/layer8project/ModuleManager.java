@@ -450,6 +450,15 @@ public class ModuleManager {
         if (questionID == null || questionID.isBlank()) {
             throw new IllegalArgumentException("Question ID cannot be null or empty");
         }
-        return questionRepository.deleteQuestion(questionID);}
+        return questionRepository.deleteQuestion(questionID);
+    }
+
+    /**
+     * Returns the total number of questions in Layer7.
+     * @return the total number of questions
+     */
+    public int getTotalQuestionCount() {
+        return questionRepository.getTotalQuestionCount();
+    }
 
 }

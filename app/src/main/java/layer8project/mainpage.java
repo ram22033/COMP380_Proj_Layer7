@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -88,6 +89,11 @@ public class mainpage   {
         settingbutton.setOpaque(false);
         settingbutton.setForeground(Color.WHITE);
 
+        settingbutton.addActionListener(e -> {
+            frame.dispose();
+            homeFrame.setVisible(true);
+        });
+
         //Logo
         ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
         Image scaled = logo.getImage().getScaledInstance(140,40,Image.SCALE_SMOOTH);
@@ -127,25 +133,17 @@ public class mainpage   {
             javax.swing.BorderFactory.createEmptyBorder(50, 100, 50, 100)
         );
 
-        JButton module1 = createModuleButton("Cyber Security Foundations");
-        JButton module2 = createModuleButton("Networking Basics");
-        JButton module3 = createModuleButton("Linux Foundation");
-        JButton module4 = createModuleButton("Window's Administration");
-        JButton module5 = createModuleButton("Security Monitoring");
-        JButton module6 = createModuleButton("Penetration Testing");
-        JButton module7 = createModuleButton("Digital Forenscics Incident Response");
-        JButton module8 = createModuleButton("Cryptography");
-        JButton module9 = createModuleButton("Module 9");
-
-        moduleGrid.add(module1);
-        moduleGrid.add(module2);
-        moduleGrid.add(module3);
-        moduleGrid.add(module4);
-        moduleGrid.add(module5);
-        moduleGrid.add(module6);
-        moduleGrid.add(module7);
-        moduleGrid.add(module8);
-        moduleGrid.add(module9);
+        // Getting list of modules
+        ArrayList<LearningModule> modules = moduleManager.getAllModules();
+        // Create Button for every module
+        for (LearningModule module : modules) {
+            JButton moduleButton = createModuleButton(module.getTitle());
+            moduleButton.addActionListener(e -> {
+                frame.setVisible(false);
+                new ModulesPage(loggedInUser, userProgress, moduleManager, module, frame);
+            });
+            moduleGrid.add(moduleButton);
+        }
 
 
         headerpanel.add(logoLabel,BorderLayout.WEST);

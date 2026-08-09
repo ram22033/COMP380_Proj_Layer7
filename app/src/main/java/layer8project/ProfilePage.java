@@ -156,21 +156,16 @@ public class ProfilePage {
         progressTitle.setForeground(Color.WHITE);
         progressTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        int progressPercent = userProgress.getCompletedQuestionCount();
-        
-        JProgressBar progressBar =
-        new JProgressBar(0, 100);
-
-        progressBar.setValue(progressPercent);
+        // Progress Bar percentage
+        int totalQuestions = moduleManager.getTotalQuestionCount();
+        double overallProgress = userProgress.getOverallProgressPercentage(totalQuestions);
+        int progressValue = (int) Math.round(overallProgress);
+        JProgressBar progressBar = new JProgressBar(0, 100);
+        progressBar.setValue(progressValue);
+        progressBar.setString(progressValue + "%");
         progressBar.setStringPainted(true);
-
-        progressBar.setMaximumSize(
-        new Dimension(400, 25)
-        );
-
-        progressBar.setAlignmentX(
-        Component.CENTER_ALIGNMENT
-        );
+        progressBar.setMaximumSize(new Dimension(400, 25));
+        progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add Prgoress Bar
         progressPanel.add(progressTitle);

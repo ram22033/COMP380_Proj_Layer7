@@ -31,7 +31,7 @@ public class App {
         ModuleManager moduleManager = new ModuleManager(userRepository, progressRepository, moduleRepository, questionRepository);
         
         // Seed default modules
-        // DatabaseSeeder.seedModules(moduleRepository, questionRepository);
+        DatabaseSeeder.seedModules(moduleRepository, questionRepository);
         // Seed default admin
         DatabaseSeeder.seedAdmin(userRepository);
 

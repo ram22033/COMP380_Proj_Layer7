@@ -491,4 +491,21 @@ public class QuestionRepository {
         }
     }
 
+    /**
+     * Returns the total number of questions stored in the database.
+     * @return the total number of questions
+     */
+    public int getTotalQuestionCount() {
+        String sql = "SELECT COUNT(*) AS total FROM questions";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving total question count: " + e.getMessage());
+        }
+        return 0;
+    }
+
 }

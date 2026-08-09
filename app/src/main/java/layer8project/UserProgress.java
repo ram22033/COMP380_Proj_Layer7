@@ -256,6 +256,20 @@ public class UserProgress {
         return completedQuestionIds.size();
     }
 
+    /**
+     * Calculates the user's overall question completion percentage.
+     * @param totalQuestions the total number of questions in Layer7
+     * @return the user's overall completion percentage
+     */
+    public double getOverallProgressPercentage(int totalQuestions) {
+        if (totalQuestions <= 0) {
+            return 0;
+        }
+        return ((double) completedQuestionIds.size() / totalQuestions) * 100;
+    }
+
+    
+
 
 
 }
