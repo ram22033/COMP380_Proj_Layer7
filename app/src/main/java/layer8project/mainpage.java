@@ -53,7 +53,28 @@ public mainpage(
         JTextField searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200,30));
         searchField.setMaximumSize(new Dimension(220,30));
-        searchField.setToolTipText("Search Modules...");
+
+        searchField.setText("Search Modules...");
+        searchField.setForeground(Color.GRAY);
+
+        //Inside the Search Bar
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (searchField.getText().equals("Search Modules...")) {
+                    searchField.setText("");
+                    searchField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("Search Modules...");
+                    searchField.setForeground(Color.GRAY);
+                }
+            }
+        });
         
 
         JPanel searchPanel = new JPanel();
