@@ -39,12 +39,27 @@ public class DatabaseSeeder {
             moduleRepository.addModule(cyberSecurityFoundations);
 
             ///Sub1 - Introduction to Cybersecurity
-            SubModule cybersecurityIntroduction = new SubModule("S001", "Introduction to Cybersecurity", 
-                                                    "Cybersecurity is the practice of protecting systems, \"\n" + //
-                                "                    + \"networks, applications, and data from unauthorized access, \"\n" + //
-                                "                    + \"damage, disruption, or theft. Security professionals work \"\n" + //
-                                "                    + \"to protect information and technology while allowing \"\n" + //
-                                "                    + \"authorized users to access the resources they need.\",", 0);
+            SubModule cybersecurityIntroduction = new SubModule("M001S01",
+                "Introduction to Cybersecurity",
+                "Cybersecurity is the practice of protecting computers, networks, applications, "
+                + "and data from unauthorized access, damage, disruption, or theft.\n\n"
+                + "Cybersecurity is important because organizations and individuals rely on "
+                + "technology to store sensitive information such as passwords, financial records, "
+                + "personal information, and business data. A successful cyberattack can result in "
+                + "data loss, financial damage, service outages, or unauthorized access to systems.\n\n"
+                + "Cybersecurity professionals work to reduce these risks by identifying threats "
+                + "and vulnerabilities, monitoring systems for suspicious activity, implementing "
+                + "security controls, and responding to security incidents.\n\n"
+                + "A threat is something that has the potential to cause harm to a system or its data. "
+                + "A vulnerability is a weakness that a threat may exploit. Security controls, such "
+                + "as firewalls, access controls, encryption, and security policies, are used to help "
+                + "protect systems and reduce risk.\n\n"
+                + "The overall goal of cybersecurity is not simply to block access. It is to protect "
+                + "information and systems while still allowing authorized users to access the "
+                + "resources they need.",
+                0
+            );
+            
             moduleRepository.addSubModule(cyberSecurityFoundations.getModuleID(),cybersecurityIntroduction);
 
             ///Question1
@@ -67,12 +82,31 @@ public class DatabaseSeeder {
 
             ///Sub2 - CIA TRIAD
             SubModule ciaTriad =new SubModule("M001S02", "The CIA Triad",
-                    "The CIA triad represents three fundamental goals of "
-                    + "information security: Confidentiality, Integrity, and "
-                    + "Availability. Confidentiality prevents unauthorized access "
-                    + "to information. Integrity ensures information remains "
-                    + "accurate and unaltered. Availability ensures authorized "
-                    + "users can access systems and information when needed.",
+                    "The CIA Triad is one of the foundational models of cybersecurity. "
+                    + "CIA stands for Confidentiality, Integrity, and Availability. These three "
+                    + "principles help security professionals determine what needs to be protected "
+                    + "and what security controls should be implemented.\n\n"
+
+                    + "Confidentiality means protecting information from unauthorized access or "
+                    + "disclosure. Only people or systems with proper authorization should be able "
+                    + "to view sensitive information. Passwords, access controls, and encryption "
+                    + "are common methods used to maintain confidentiality.\n\n"
+
+                    + "Integrity means protecting information from unauthorized modification or "
+                    + "destruction. Data should remain accurate and trustworthy throughout its "
+                    + "lifecycle. Hashing, digital signatures, permissions, and file integrity "
+                    + "monitoring can help detect or prevent unauthorized changes.\n\n"
+
+                    + "Availability means ensuring that systems, services, and information are "
+                    + "accessible to authorized users when they are needed. Hardware failures, "
+                    + "power outages, ransomware, and denial-of-service attacks can all affect "
+                    + "availability. Backups, redundancy, fault tolerance, and disaster recovery "
+                    + "planning can help maintain availability.\n\n"
+
+                    + "Security professionals often have to balance all three parts of the CIA "
+                    + "Triad. A system that protects confidentiality but is never available would "
+                    + "not be useful. Likewise, a highly available system that exposes confidential "
+                    + "information would not be secure.",
                     1
             );
             moduleRepository.addSubModule(cyberSecurityFoundations.getModuleID(),ciaTriad);
@@ -112,11 +146,32 @@ public class DatabaseSeeder {
             
             // SUBMODULE 3 - Threats and Vulnerabilities
             SubModule threatsAndVulnerabilities = new SubModule( "M001S03", "Threats, Vulnerabilities, and Risk",
-                    "A threat is something capable of causing harm to a system "
-                    + "or organization. A vulnerability is a weakness that can "
-                    + "be exploited by a threat. Risk represents the potential "
-                    + "impact or loss that may occur when a threat successfully "
-                    + "exploits a vulnerability.",
+                    "Understanding threats, vulnerabilities, and risk is an important part of "
+                    + "cybersecurity. Although these terms are related, they describe different "
+                    + "parts of the security problems organizations face.\n\n"
+
+                    + "A threat is anything that has the potential to cause harm to a system, "
+                    + "network, or organization. Threats can include hackers, malware, malicious "
+                    + "insiders, natural disasters, hardware failures, and human error. A threat "
+                    + "does not necessarily mean that damage has already occurred; it represents "
+                    + "something that could cause harm.\n\n"
+
+                    + "A vulnerability is a weakness that could be exploited by a threat. Examples "
+                    + "include outdated software, weak passwords, incorrect permissions, "
+                    + "misconfigured systems, and unpatched security flaws. Organizations regularly "
+                    + "perform vulnerability scans and security assessments to identify these "
+                    + "weaknesses before attackers can exploit them.\n\n"
+
+                    + "Risk represents the potential for loss or damage when a threat is able to "
+                    + "exploit a vulnerability. Security teams evaluate both the likelihood of an "
+                    + "event occurring and the impact it could have on the organization. Higher-risk "
+                    + "problems are generally addressed before lower-risk problems.\n\n"
+
+                    + "For example, imagine that a company operates an internet-facing server with "
+                    + "an unpatched software vulnerability. The vulnerability is the weakness, an "
+                    + "attacker capable of exploiting it represents a threat, and the possibility "
+                    + "of the attacker compromising the server represents risk. Identifying and "
+                    + "reducing these risks is a major responsibility of cybersecurity professionals.",
                     2
             );
             moduleRepository.addSubModule(cyberSecurityFoundations.getModuleID(), threatsAndVulnerabilities);
@@ -146,11 +201,35 @@ public class DatabaseSeeder {
             
             // SUBMODULE 4 - Security Controls
             SubModule securityControls = new SubModule("M001S04", "Security Controls",
-                    "Security controls are safeguards used to reduce risk and "
-                    + "protect systems and information. Preventive controls attempt "
-                    + "to stop incidents before they occur. Detective controls "
-                    + "identify incidents that have occurred, while corrective "
-                    + "controls help restore systems after an incident.",
+                    "Security controls are safeguards used to reduce security risks and protect "
+                    + "an organization's systems, networks, people, and information. Organizations "
+                    + "typically use multiple types of controls together rather than relying on a "
+                    + "single security solution.\n\n"
+
+                    + "Technical controls use technology to protect systems and information. "
+                    + "Examples include firewalls, antivirus software, encryption, intrusion "
+                    + "detection systems, multifactor authentication, and access control systems. "
+                    + "These controls can help prevent attacks or detect suspicious activity.\n\n"
+
+                    + "Administrative controls are policies, procedures, and practices that guide "
+                    + "how people interact with technology and information. Examples include "
+                    + "security policies, employee security awareness training, password policies, "
+                    + "incident response procedures, and acceptable-use policies.\n\n"
+
+                    + "Physical controls protect buildings, equipment, and other physical assets. "
+                    + "Examples include locks, fences, security cameras, badge readers, security "
+                    + "guards, and restricted server rooms. Physical security is important because "
+                    + "an attacker who gains physical access to a device may be able to bypass "
+                    + "technical protections.\n\n"
+
+                    + "Security controls can also be classified by what they are designed to do. "
+                    + "Preventive controls attempt to stop an incident before it occurs, detective "
+                    + "controls help identify incidents that are occurring or have occurred, and "
+                    + "corrective controls help restore systems or reduce damage after an incident.\n\n"
+
+                    + "Effective cybersecurity uses layers of different security controls. This "
+                    + "approach is often called defense in depth. If one control fails, additional "
+                    + "controls can continue protecting the organization.",
                     3
             );
             moduleRepository.addSubModule(cyberSecurityFoundations.getModuleID(), securityControls);
@@ -179,153 +258,6 @@ public class DatabaseSeeder {
             MultipleChoiceQuestion q12 = new MultipleChoiceQuestion("M001Q12", "Restoring a system from a backup after an incident is an " + "example of what type of control?", optionsQ12, 2);
             questionRepository.addMultipleChoiceQuestion(q12, securityControls.getSubModuleID());
         }
-        
-        ////////////// MODULE 2 ////////////
-        // Check if module exists
-        if (moduleRepository.getModuleById("M002") == null) {
-            LearningModule exampleModule2 = new LearningModule("EXM2", "Networking Basics",
-            "Example Description 1",50, 50);
-            moduleRepository.addModule(exampleModule2);
-
-            ///Sub3
-            SubModule exampleSubModule3 = new SubModule("EXSUB3", "Example SubModule3", 
-            "Example SubModule Description", 0);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule3);
-
-            ///Question5
-            EntryQuestion ex5 = new EntryQuestion("Q005","What barks?","dog");
-            questionRepository.addEntryQuestion(ex5, exampleSubModule3.getSubModuleID());
-            ///Question6
-            EntryQuestion ex6 = new EntryQuestion("Q006","What meows?","cat");
-            questionRepository.addEntryQuestion(ex6, exampleSubModule3.getSubModuleID());
-
-            ///Sub4
-            SubModule exampleSubModule4 = new SubModule("EXSUB4", "Example SubModule4", 
-            "Example SubModule Description", 1);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule4);
-
-            ///Question7
-            ArrayList<String> optionsQ7 = new ArrayList<>();
-            optionsQ7.add("Dog");
-            optionsQ7.add("Cat");
-            optionsQ7.add("Duck");
-            optionsQ7.add("Fish");
-            MultipleChoiceQuestion q7 = new MultipleChoiceQuestion("Q007", "What barks?", optionsQ7, 1);
-            questionRepository.addMultipleChoiceQuestion(q7,exampleSubModule4.getSubModuleID());
-
-            ///Question8
-            EntryQuestion ex8 = new EntryQuestion("Q008","Spell FISH","FISH");
-            questionRepository.addEntryQuestion(ex8, exampleSubModule4.getSubModuleID());
-        }
-        // MOD3
-        if (moduleRepository.getModuleById("M003") == null) {
-            LearningModule exampleModule2 = new LearningModule("EXM2", "Linux Foundation",
-            "Example Description 1",50, 50);
-            moduleRepository.addModule(exampleModule2);
-
-            ///Sub3
-            SubModule exampleSubModule3 = new SubModule("EXSUB3", "Example SubModule3", 
-            "Example SubModule Description", 0);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule3);
-
-            ///Question5
-            EntryQuestion ex5 = new EntryQuestion("Q005","What barks?","dog");
-            questionRepository.addEntryQuestion(ex5, exampleSubModule3.getSubModuleID());
-            ///Question6
-            EntryQuestion ex6 = new EntryQuestion("Q006","What meows?","cat");
-            questionRepository.addEntryQuestion(ex6, exampleSubModule3.getSubModuleID());
-
-            ///Sub4
-            SubModule exampleSubModule4 = new SubModule("EXSUB4", "Example SubModule4", 
-            "Example SubModule Description", 1);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule4);
-
-            ///Question7
-            ArrayList<String> optionsQ7 = new ArrayList<>();
-            optionsQ7.add("Dog");
-            optionsQ7.add("Cat");
-            optionsQ7.add("Duck");
-            optionsQ7.add("Fish");
-            MultipleChoiceQuestion q7 = new MultipleChoiceQuestion("Q007", "What barks?", optionsQ7, 1);
-            questionRepository.addMultipleChoiceQuestion(q7,exampleSubModule4.getSubModuleID());
-
-            ///Question8
-            EntryQuestion ex8 = new EntryQuestion("Q008","Spell FISH","FISH");
-            questionRepository.addEntryQuestion(ex8, exampleSubModule4.getSubModuleID());
-        }
-        // MOD4
-        if (moduleRepository.getModuleById("M004") == null) {
-            LearningModule exampleModule2 = new LearningModule("EXM2", "Windows Administration",
-            "Example Description 1",50, 50);
-            moduleRepository.addModule(exampleModule2);
-
-            ///Sub3
-            SubModule exampleSubModule3 = new SubModule("EXSUB3", "Example SubModule3", 
-            "Example SubModule Description", 0);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule3);
-
-            ///Question5
-            EntryQuestion ex5 = new EntryQuestion("Q005","What barks?","dog");
-            questionRepository.addEntryQuestion(ex5, exampleSubModule3.getSubModuleID());
-            ///Question6
-            EntryQuestion ex6 = new EntryQuestion("Q006","What meows?","cat");
-            questionRepository.addEntryQuestion(ex6, exampleSubModule3.getSubModuleID());
-
-            ///Sub4
-            SubModule exampleSubModule4 = new SubModule("EXSUB4", "Example SubModule4", 
-            "Example SubModule Description", 1);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule4);
-
-            ///Question7
-            ArrayList<String> optionsQ7 = new ArrayList<>();
-            optionsQ7.add("Dog");
-            optionsQ7.add("Cat");
-            optionsQ7.add("Duck");
-            optionsQ7.add("Fish");
-            MultipleChoiceQuestion q7 = new MultipleChoiceQuestion("Q007", "What barks?", optionsQ7, 1);
-            questionRepository.addMultipleChoiceQuestion(q7,exampleSubModule4.getSubModuleID());
-
-            ///Question8
-            EntryQuestion ex8 = new EntryQuestion("Q008","Spell FISH","FISH");
-            questionRepository.addEntryQuestion(ex8, exampleSubModule4.getSubModuleID());
-        }
-        // MOD5
-        if (moduleRepository.getModuleById("M005") == null) {
-            LearningModule exampleModule2 = new LearningModule("EXM2", "Security Monitoring",
-            "Example Description 1",50, 50);
-            moduleRepository.addModule(exampleModule2);
-
-            ///Sub3
-            SubModule exampleSubModule3 = new SubModule("EXSUB3", "Example SubModule3", 
-            "Example SubModule Description", 0);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule3);
-
-            ///Question5
-            EntryQuestion ex5 = new EntryQuestion("Q005","What barks?","dog");
-            questionRepository.addEntryQuestion(ex5, exampleSubModule3.getSubModuleID());
-            ///Question6
-            EntryQuestion ex6 = new EntryQuestion("Q006","What meows?","cat");
-            questionRepository.addEntryQuestion(ex6, exampleSubModule3.getSubModuleID());
-
-            ///Sub4
-            SubModule exampleSubModule4 = new SubModule("EXSUB4", "Example SubModule4", 
-            "Example SubModule Description", 1);
-            moduleRepository.addSubModule(exampleModule2.getModuleID(),exampleSubModule4);
-
-            ///Question7
-            ArrayList<String> optionsQ7 = new ArrayList<>();
-            optionsQ7.add("Dog");
-            optionsQ7.add("Cat");
-            optionsQ7.add("Duck");
-            optionsQ7.add("Fish");
-            MultipleChoiceQuestion q7 = new MultipleChoiceQuestion("Q007", "What barks?", optionsQ7, 1);
-            questionRepository.addMultipleChoiceQuestion(q7,exampleSubModule4.getSubModuleID());
-
-            ///Question8
-            EntryQuestion ex8 = new EntryQuestion("Q008","Spell FISH","FISH");
-            questionRepository.addEntryQuestion(ex8, exampleSubModule4.getSubModuleID());
-        }
-
 
         ////////////// MODULE 2 //////////////
 
@@ -347,12 +279,38 @@ public class DatabaseSeeder {
             SubModule networkFundamentals = new SubModule(
                     "M002S01",
                     "Network Fundamentals",
-                    "A computer network is a group of connected devices that "
-                    + "communicate and share resources. Networks can vary in size "
-                    + "and purpose. A Local Area Network (LAN) typically connects "
-                    + "devices within a limited area such as a home, office, or "
-                    + "school, while a Wide Area Network (WAN) connects networks "
-                    + "across larger geographic areas.",
+                    "A computer network is a group of devices that communicate with one another "
+                    + "and share resources. Networks allow computers, servers, phones, printers, "
+                    + "and other devices to exchange information using established communication "
+                    + "rules called protocols.\n\n"
+
+                    + "Networks can be categorized by their size and purpose. A Local Area Network "
+                    + "(LAN) connects devices within a limited area such as a home, office, or school. "
+                    + "A Wide Area Network (WAN) connects networks across much larger geographic "
+                    + "areas. The Internet is the largest example of a WAN because it connects "
+                    + "networks throughout the world.\n\n"
+
+                    + "Devices on a network use IP addresses to identify and communicate with one "
+                    + "another. IPv4 addresses are 32 bits long and are commonly written as four "
+                    + "decimal numbers separated by periods, such as 192.168.1.10. IPv6 uses "
+                    + "128-bit addresses and was developed in part to provide a much larger number "
+                    + "of available addresses.\n\n"
+
+                    + "Network communication also relies on protocols. TCP provides reliable, "
+                    + "connection-oriented communication and ensures that data arrives correctly "
+                    + "and in the proper order. UDP is connectionless and does not provide the same "
+                    + "delivery guarantees, but its lower overhead makes it useful when speed is "
+                    + "more important than guaranteed delivery.\n\n"
+
+                    + "Many network services are associated with port numbers. For example, HTTP "
+                    + "commonly uses TCP port 80, HTTPS uses TCP port 443, and DNS commonly uses "
+                    + "port 53. IP addresses identify network devices, while port numbers help "
+                    + "identify the applications and services communicating on those devices.\n\n"
+
+                    + "Understanding how devices, addresses, ports, and protocols work together is "
+                    + "essential in cybersecurity because attacks and security controls frequently "
+                    + "operate across networks. Security professionals often analyze network traffic "
+                    + "to identify suspicious connections and determine how systems are communicating.",
                     0
             );
             moduleRepository.addSubModule(networkingBasics.getModuleID(),networkFundamentals);
@@ -370,11 +328,40 @@ public class DatabaseSeeder {
             SubModule networkDevices =new SubModule(
                     "M002S02",
                     "Network Devices",
-                    "Network devices allow systems to communicate with each other. "
-                    + "A switch connects devices within the same local network and "
-                    + "forwards traffic to the appropriate device. A router connects "
-                    + "different networks and forwards traffic between them. These "
-                    + "devices form an important part of modern computer networks.",
+                    "Computer networks rely on several types of devices to connect systems and "
+                    + "control how network traffic moves. Understanding the purpose of these devices "
+                    + "is important for both network administration and cybersecurity.\n\n"
+
+                    + "A switch connects devices within a local network. It primarily operates at "
+                    + "Layer 2 of the OSI model and forwards Ethernet frames using MAC addresses. "
+                    + "Switches learn which devices are connected to their ports and use a MAC "
+                    + "address table to determine where traffic should be forwarded.\n\n"
+
+                    + "A router connects different networks and primarily operates at Layer 3 of "
+                    + "the OSI model. Routers examine IP addresses and use routing information to "
+                    + "determine where packets should be sent. A home router, for example, allows "
+                    + "devices on a local network to communicate with networks on the Internet.\n\n"
+
+                    + "A wireless access point allows wireless devices to connect to a network using "
+                    + "Wi-Fi. Access points commonly connect back to the wired network through an "
+                    + "Ethernet connection. Organizations may deploy multiple access points to "
+                    + "provide wireless coverage throughout a building or campus.\n\n"
+
+                    + "A firewall controls network traffic according to configured security rules. "
+                    + "A firewall can permit or deny traffic based on information such as source "
+                    + "and destination IP addresses, protocols, and port numbers. More advanced "
+                    + "firewalls may also inspect application traffic and detect malicious activity.\n\n"
+
+                    + "Other network and security devices include intrusion detection systems (IDS), "
+                    + "which monitor traffic for suspicious activity, and intrusion prevention "
+                    + "systems (IPS), which can detect and actively block malicious traffic. "
+                    + "Understanding where these devices are located in a network helps security "
+                    + "professionals understand how traffic flows and where security controls can "
+                    + "be applied.\n\n"
+
+                    + "In simple terms, switches connect devices within a network, routers connect "
+                    + "different networks, access points provide wireless connectivity, and "
+                    + "firewalls control which network traffic is allowed to pass.",
                     1
             );
             moduleRepository.addSubModule(networkingBasics.getModuleID(), networkDevices);

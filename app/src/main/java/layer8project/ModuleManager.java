@@ -88,7 +88,7 @@ public class ModuleManager {
         progressRepository.saveUnlockedModule(userProgress.getUserID(), moduleId);
 
         // unlocks the first submodule of the purchased module for the user
-        ArrayList<SubModule> subModules = module.getSubModules();
+        ArrayList<SubModule> subModules = moduleRepository.getSubModules(module.getModuleID());
         if (!subModules.isEmpty()) {
             SubModule firstSubModule = subModules.get(0);
             userProgress.unlockSubModule(firstSubModule.getSubModuleID());
@@ -121,7 +121,7 @@ public class ModuleManager {
             throw new IllegalArgumentException("User, user progress, and module cannot be null");
         }
 
-        List<SubModule> subModules = module.getSubModules();
+        List<SubModule> subModules = moduleRepository.getSubModules(module.getModuleID());
         for (int i = 0; i < subModules.size(); i++) {
             SubModule subModule = subModules.get(i);
             if (subModule.getSubModuleID().equals(currentSubModule.getSubModuleID())) {
@@ -270,16 +270,33 @@ public class ModuleManager {
         if (userProgress == null || subModule == null) {
             throw new IllegalArgumentException("User progress and submodule cannot be null");
         }
-        return userProgress.isSubModuleFullyCompleted(subModule);
+        ArrayList<Question> questions = questionRepository.getQuestionsBySubModuleId(subModule.getSubModuleID());
+        // A submodule with no questions should not automatically count as completed.
+        if (questions.isEmpty()) {
+            return false;
+        }
+        for (Question question : questions) {
+            if (!userProgress.isQuestionCompleted(question.getID())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean checkModuleCompletion(UserProgress userProgress, LearningModule module) {
         if (userProgress == null || module == null) {
             throw new IllegalArgumentException("User progress and module cannot be null");
         }
-        return userProgress.isModuleFullyCompleted(module);
-
-
+        ArrayList<SubModule> subModules = moduleRepository.getSubModules(module.getModuleID());
+        if (subModules.isEmpty()) {
+            return false;
+        }
+        for (SubModule subModule : subModules) {
+            if (!userProgress.isSubModuleCompleted(subModule.getSubModuleID())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

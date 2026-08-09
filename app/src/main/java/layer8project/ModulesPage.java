@@ -2,22 +2,28 @@ package layer8project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
 
 /**
  * ModulesPage.java
@@ -39,6 +45,28 @@ import javax.swing.tree.DefaultTreeModel;
  */
 
 public class ModulesPage {
+        private static class ScrollablePanel extends JPanel implements javax.swing.Scrollable {
+                @Override
+                public Dimension getPreferredScrollableViewportSize() {
+                        return getPreferredSize();
+                }
+                @Override
+                public int getScrollableUnitIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
+                        return 16;
+                }
+                @Override
+                public int getScrollableBlockIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
+                        return 100;
+                }
+                @Override
+                public boolean getScrollableTracksViewportWidth() {
+                        return true;
+                }
+                @Override
+                public boolean getScrollableTracksViewportHeight() {
+                        return false;
+                }
+        }
 
     private final User loggedInUser;
     private final UserProgress userProgress;
@@ -74,7 +102,7 @@ public class ModulesPage {
         navigationPanel.add(treeScrollPane, BorderLayout.CENTER);
 
         // Content Area
-        contentPanel = new JPanel();
+        contentPanel = new ScrollablePanel();
         contentPanel.setBackground(new Color(30, 30, 30));
         contentPanel.setLayout(new BoxLayout(contentPanel,BoxLayout.Y_AXIS));
         contentTitle = new JLabel("Select a submodule");
@@ -91,6 +119,8 @@ public class ModulesPage {
         contentPanel.add(contentText);
         JScrollPane contentScrollPane = new JScrollPane(contentPanel);
         contentScrollPane.setBorder(null);
+        contentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        contentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Split Pane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationPanel, contentScrollPane);
@@ -112,6 +142,7 @@ public class ModulesPage {
         frame.add(bottomPanel,BorderLayout.SOUTH);
         loadModuleTree();
         setupTreeSelection();
+        displayModule(selectedModule);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 }
@@ -141,7 +172,7 @@ public class ModulesPage {
                                 } else {
                                         subStatus = " [LOCKED]";
                                 }
-                                SubModuleTreeItem item = new SubModuleTreeItem(module, subModule);
+                                SubModuleTreeItem item = new SubModuleTreeItem(module, subModule, subStatus);
                                 DefaultMutableTreeNode subNode = new DefaultMutableTreeNode(item);
                                 subNode.setUserObject(item);
                                 moduleNode.add(subNode);
@@ -172,9 +203,11 @@ public class ModulesPage {
         private static class SubModuleTreeItem {
                 private final LearningModule module;
                 private final SubModule subModule;
-                public SubModuleTreeItem(LearningModule module, SubModule subModule) {
+                private final String status;
+                public SubModuleTreeItem(LearningModule module, SubModule subModule, String status) {
                         this.module = module;
                         this.subModule = subModule;
+                        this.status = status;
                 }
                 public LearningModule getModule() {
                         return module;
@@ -184,7 +217,7 @@ public class ModulesPage {
                 }
                 @Override
                 public String toString() {
-                        return subModule.getTitle();
+                        return subModule.getTitle() + status;
                 }
         }
 
@@ -219,15 +252,135 @@ public class ModulesPage {
         }
 
         // Function to display submodule contents for both locked and unlocked submodules
-        private void displaySubModule(LearningModule module,SubModule subModule) {
-                contentTitle.setText(module.getTitle()+ " - " + subModule.getTitle());
-                contentText.setText(subModule.getDescription());
-                contentText.setCaretPosition(0);
+        private void displaySubModule(LearningModule module, SubModule subModule) {
+                contentPanel.removeAll();
+                JLabel title = new JLabel(module.getTitle() + " - " + subModule.getTitle());
+                title.setForeground(Color.WHITE);
+                title.setFont(title.getFont().deriveFont(Font.BOLD,24f));
+                JTextArea descriptionArea = new JTextArea(subModule.getDescription());
+                descriptionArea.setEditable(false);
+                descriptionArea.setLineWrap(true);
+                descriptionArea.setWrapStyleWord(true);
+                descriptionArea.setBackground(new Color(30, 30, 30));
+                descriptionArea.setForeground(Color.WHITE);
+                descriptionArea.setFont(descriptionArea.getFont().deriveFont(18f));
+                descriptionArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+                descriptionArea.setColumns(50);
+                descriptionArea.setRows(10);
+                descriptionArea.setLineWrap(true);
+                descriptionArea.setWrapStyleWord(true);
+                descriptionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+                contentPanel.add(Box.createVerticalStrut(20));
+                contentPanel.add(title);
+                contentPanel.add(Box.createVerticalStrut(20));
+                contentPanel.add(descriptionArea);contentPanel.revalidate();
+                contentPanel.repaint();
+
+                // Adding questions
+                ArrayList<Question> questions = moduleManager.getQuestionsBySubModuleId(subModule.getSubModuleID());
+                JLabel questionsLabel = new JLabel("Questions");
+                questionsLabel.setForeground(Color.WHITE);
+                questionsLabel.setFont(questionsLabel.getFont().deriveFont(Font.BOLD,22f));
+                
+                contentPanel.add(questionsLabel);
+                contentPanel.add(Box.createVerticalStrut(15));
+                int questionNumber = 1;
+                for (Question question : questions) {
+                        JLabel questionLabel = new JLabel("<html>" + questionNumber + ". " + question.getPrompt() + "</html>");
+                        questionLabel.setForeground(Color.WHITE);
+                        questionLabel.setFont(questionLabel.getFont().deriveFont(16f));
+                        contentPanel.add(questionLabel);
+                        contentPanel.add(Box.createVerticalStrut(10));
+                        questionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+       
+                // ENTRY QUESTION
+                
+                if (question instanceof EntryQuestion) {
+                        EntryQuestion entryQuestion = (EntryQuestion) question;
+                        JTextField answerField = new JTextField();
+                        answerField.setMaximumSize(new Dimension(400,35));
+                        JButton submitButton = new JButton("Submit Answer");
+                        submitButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+                        submitButton.addActionListener(e -> {
+                                String answer = answerField.getText().trim();
+                                if (answer.isEmpty()) {
+                                        JOptionPane.showMessageDialog(frame,"Please enter an answer.");
+                                        return;
+                                }
+                                boolean correct =moduleManager.submitAnswer(loggedInUser, userProgress, module, subModule, entryQuestion, answer);
+                                if (correct) {
+                                        JOptionPane.showMessageDialog(frame,"Correct!");
+                                        // Refresh progress status
+                                        loadModuleTree();
+                                } 
+                                else {
+                                        JOptionPane.showMessageDialog(frame,"Incorrect. Try again.");
+                                }
+                        });
+                        contentPanel.add(answerField);
+                        contentPanel.add(Box.createVerticalStrut(8));
+                        contentPanel.add(submitButton);
+                }
+                // MULTIPLE CHOICE QUESTION
+                else if (question instanceof MultipleChoiceQuestion) {
+                        MultipleChoiceQuestion mcQuestion = (MultipleChoiceQuestion) question;
+                        ButtonGroup buttonGroup = new ButtonGroup();
+                        ArrayList<JRadioButton> optionButtons = new ArrayList<>();
+                        ArrayList<String> options = mcQuestion.getOptions();
+                        for (int i = 0; i < options.size(); i++) {
+                                JRadioButton optionButton = new JRadioButton(options.get(i));
+                                optionButton.setBackground(new Color(30, 30, 30));
+                                optionButton.setForeground(Color.WHITE);
+                                optionButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+                                buttonGroup.add(optionButton);
+                                optionButtons.add(optionButton);
+                                contentPanel.add(optionButton);
+                        }
+                        JButton submitButton = new JButton("Submit Answer");
+                        submitButton.addActionListener(e -> {
+                                int selectedIndex = -1;
+                                for (int i = 0; i < optionButtons.size(); i++) {
+                                        if (optionButtons.get(i).isSelected()) {
+                                                selectedIndex = i;
+                                                break;
+                                        }
+                                }
+                                if (selectedIndex == -1) {
+                                        JOptionPane.showMessageDialog(frame,"Please select an answer.");
+                                        return;
+                                }
+                                boolean correct =moduleManager.submitAnswer(loggedInUser, userProgress, module, subModule, mcQuestion, selectedIndex);
+                                if (correct) {
+                                        JOptionPane.showMessageDialog(frame, "Correct!");
+                                        loadModuleTree();
+                                } else {
+                                        JOptionPane.showMessageDialog(frame, "Incorrect. Try again.");
+                                }
+                        });
+                        contentPanel.add(Box.createVerticalStrut(8));
+                        contentPanel.add(submitButton);
+                 }
+                 contentPanel.add(Box.createVerticalStrut(25));
+                 questionNumber++;
+                }
         }
         private void displayLockedSubModule(LearningModule module, SubModule subModule) {
-                contentTitle.setText(subModule.getTitle());
-                contentText.setText("This submodule is currently locked.\n\n" + "Complete the previous content " + "to unlock it.");
-        }
+                contentPanel.removeAll();
+                JLabel title = new JLabel(subModule.getTitle());
+                title.setForeground(Color.WHITE);
+                title.setFont(title.getFont().deriveFont(Font.BOLD,24f));
+                JLabel lockedLabel = new JLabel("This submodule is currently locked.");
+                lockedLabel.setForeground(new Color(150, 150, 150));
+                JLabel instructionLabel = new JLabel("Complete the previous content to unlock it.");
+                instructionLabel.setForeground(new Color(150, 150, 150));
+                contentPanel.add(Box.createVerticalStrut(20));
+                contentPanel.add(title);
+                contentPanel.add(Box.createVerticalStrut(20));
+                contentPanel.add(lockedLabel);
+                contentPanel.add(Box.createVerticalStrut(10));
+                contentPanel.add(instructionLabel);
+                contentPanel.revalidate();
+                contentPanel.repaint();}
 
         // Rebuild Content Panel
         private void displayModule(LearningModule module) {
@@ -260,10 +413,24 @@ public class ModulesPage {
                 } else {
                         JLabel unlockedLabel = new JLabel("This module is unlocked.");
                         unlockedLabel.setForeground(Color.WHITE);
+                        JTextArea descriptionArea = new JTextArea("Description: " + module.getDescription());
+                        descriptionArea.setEditable(false);
+                        descriptionArea.setLineWrap(true);
+                        descriptionArea.setWrapStyleWord(true);
+                        descriptionArea.setBackground(new Color(30, 30, 30));
+                        descriptionArea.setForeground(Color.WHITE);
+                        descriptionArea.setFont(descriptionArea.getFont().deriveFont(Font.BOLD, 18f));
+                        JLabel instructionLabel = new JLabel("Select an unlocked submodule from the left.");
+                        instructionLabel.setForeground(new Color(150, 150, 150));
                         contentPanel.add(unlockedLabel);
+                        contentPanel.add(Box.createVerticalStrut(15));
+                        contentPanel.add(descriptionArea);
+                        contentPanel.add(Box.createVerticalStrut(20));
+                        contentPanel.add(instructionLabel);
                 }
                 contentPanel.revalidate();
                 contentPanel.repaint();
+
         }
         
 }
