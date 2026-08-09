@@ -15,7 +15,6 @@ package layer8project;
  * dependencies before presenting the user interface.
  *
  * @author Richard Mondragon
- * @author Christopher Sparks
  * @since August 2026
  */
 

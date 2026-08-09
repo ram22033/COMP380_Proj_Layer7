@@ -16,7 +16,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
+/**
+ * Provides the administrative interface for managing user accounts
+ * within the Layer7 learning management system.
+ *
+ * Main Features:
+ * - View registered user accounts
+ * - Create new user accounts
+ * - Edit existing user information
+ * - Delete user accounts
+ * - Assign and manage user roles
+ * - Search and manage user records
+ *
+ * This page communicates with UserManager to retrieve and modify
+ * user account information. All business logic and database
+ * operations are handled through the application's manager and
+ * repository layers.
+ *
+ * @author Christopher Sparks
+ * @since August 2026
+ */
 public class UserManagementPage {
     private final User loggedInAdmin;
     private final UserManager userManager;

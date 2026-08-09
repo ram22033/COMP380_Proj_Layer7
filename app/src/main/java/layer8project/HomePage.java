@@ -72,7 +72,7 @@ public class HomePage {
 
        profileButton.addActionListener(e -> {
         frame.setVisible(false);
-        new ProfilePage(loggedInUser, userProgress, userManager, frame);
+        new ProfilePage(loggedInUser, userProgress, userManager, moduleManager, progressRepository, frame);
         });
 
         // Placeholder for future module grid
@@ -88,12 +88,7 @@ public class HomePage {
             modulesButton.addActionListener(e -> {
                 frame.setVisible(false);
 
-                new mainpage (
-                loggedInUser, 
-                userProgress, 
-                userManager,
-                frame
-            );
+                new mainpage (loggedInUser, userProgress, userManager, moduleManager, progressRepository, frame);
         });
         
 

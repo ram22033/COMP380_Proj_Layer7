@@ -36,8 +36,17 @@ import javax.swing.JProgressBar;
  * @since August 2026
  */
 public class ProfilePage {
+    private final UserProgress userProgress;
+    private final UserManager userManager;
+    private final ModuleManager moduleManager;
+    private final ProgressRepository progressRepository;
 
-    public ProfilePage(User loggedInUser, UserProgress userProgress, UserManager userManager, JFrame homeFrame)  {
+    public ProfilePage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, ProgressRepository progressRepository, JFrame homeFrame)  {
+        this.userProgress = userProgress;
+        this.userManager = userManager;
+        this.moduleManager = moduleManager;
+        this.progressRepository = progressRepository;
+
 
         JFrame frame = new JFrame("Profile");
         frame.setSize(800, 600);
@@ -266,6 +275,23 @@ public class ProfilePage {
             formPanel.add(addFundsButton);
             formPanel.add(Box.createVerticalStrut(10));
         }
+                // Logout button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(120, 40, 40));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setOpaque(true);
+        logoutButton.setBorderPainted(false);
+        logoutButton.setMaximumSize(new Dimension(400, 45));
+        logoutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logoutButton.addActionListener(e -> {
+            frame.dispose();
+            new LoginPage(userManager, moduleManager, progressRepository);
+        });
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(logoutButton);
+
+        
 
 
 

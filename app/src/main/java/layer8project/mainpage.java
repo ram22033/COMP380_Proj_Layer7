@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.BoxLayout;
@@ -14,17 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.GridLayout;
-
 
 public class mainpage   {
 
-public mainpage(
-            User loggedUser, 
-            UserProgress userProgress, 
-            UserManager userManager,
-            JFrame homefFrame
-            ) {
+    public mainpage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, ProgressRepository progressRepository, JFrame homeFrame) {
 
         JFrame frame = new JFrame("Layer 7");
         frame.setSize(800,600);
@@ -115,11 +109,7 @@ public mainpage(
         profilebutton.addActionListener(e -> {
             frame.setVisible(false);
 
-            new ProfilePage(
-                loggedUser,
-                userProgress,
-                userManager,
-                frame);
+            new ProfilePage(loggedInUser, userProgress, userManager, moduleManager, progressRepository, frame);
         }); 
 
         //rightPanel Buttons
