@@ -150,7 +150,7 @@ public class mainpage   {
         ArrayList<LearningModule> modules = moduleManager.getAllModules();
         // Create Button for every module
         for (LearningModule module : modules) {
-            JPanel moduleCard = createModuleCard(module, loggedInUser, userProgress, moduleManager, frame);
+            JPanel moduleCard = createModuleCard(module, loggedInUser, userProgress, userManager, moduleManager, progressRepository, frame);
             moduleGrid.add(moduleCard);
         }
 
@@ -168,7 +168,7 @@ public class mainpage   {
 
     //////////// HELPERS //////////////
     // CREATING MODULE BUTTONS
-    private JPanel createModuleCard(LearningModule module, User loggedInUser, UserProgress userProgress, ModuleManager moduleManager, JFrame frame) {
+    private JPanel createModuleCard(LearningModule module, User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, ProgressRepository progressRepository, JFrame frame) {
         // Build the card
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card,BoxLayout.Y_AXIS));
@@ -237,7 +237,7 @@ public class mainpage   {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 frame.setVisible(false);
-                new ModulesPage(loggedInUser, userProgress, moduleManager, module, frame);
+                new ModulesPage(loggedInUser, userProgress, userManager, moduleManager, module, progressRepository, frame);
             }
         });
         return card;

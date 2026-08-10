@@ -4,25 +4,32 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+
 
 
 /**
@@ -50,15 +57,19 @@ public class ModulesPage {
     private final User loggedInUser;
     private final UserProgress userProgress;
     private final ModuleManager moduleManager;
+    private final UserManager userManager;
+    private final ProgressRepository progressRepository;
     private JFrame frame;
     private JTree moduleTree;
     private JPanel contentPanel;
     private JLabel contentTitle;
     private JTextArea contentText;
-    public ModulesPage(User loggedInUser, UserProgress userProgress, ModuleManager moduleManager, LearningModule selectedModule, JFrame homeFrame) {
+    public ModulesPage(User loggedInUser, UserProgress userProgress, UserManager userManager, ModuleManager moduleManager, LearningModule selectedModule, ProgressRepository progressRepository, JFrame homeFrame) {
         this.loggedInUser = loggedInUser;
         this.userProgress = userProgress;
         this.moduleManager = moduleManager;
+        this.userManager = userManager;
+        this.progressRepository = progressRepository;
 
         // Frame
         frame = new JFrame("Layer 7 - Learning Modules");
@@ -67,17 +78,141 @@ public class ModulesPage {
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(new Color(30, 30, 30));
 
+        ///////////////// Header ///////////////////////
+        //Header Panel
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(30,30,30));
+        
+        //Search Bar
+        JTextField searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension(220,34));
+        searchField.setMaximumSize(new Dimension(220,34));
+        searchField.setText("Search Modules...");
+        searchField.setForeground(Color.GRAY);
+        searchField.setBorder(javax.swing.BorderFactory.createCompoundBorder(new RoundedBorder(15), javax.swing.BorderFactory.createEmptyBorder(2, 10, 2, 10)));
+        searchField.setBackground(new Color(245, 245, 245));
+        searchField.setFont(searchField.getFont().deriveFont(18f));
+
+        //Inside the Search Bar
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (searchField.getText().equals("Search Modules...")) {
+                    searchField.setText("");
+                    searchField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("Search Modules...");
+                    searchField.setForeground(Color.GRAY);
+                }
+            }
+        });
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBackground(new Color(30,30,30));
+        searchPanel.add(searchField);
+
+        //Settings
+        JButton settingbutton = new JButton("⚙");
+        settingbutton.setFont(settingbutton.getFont().deriveFont(22f));
+        settingbutton.setPreferredSize(new Dimension(45,45));
+        settingbutton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        settingbutton.setFocusPainted(false);
+        settingbutton.setBorderPainted(false);
+        settingbutton.setContentAreaFilled(false);
+        settingbutton.setOpaque(false);
+        settingbutton.setForeground(Color.WHITE);
+        settingbutton.addActionListener(e -> {
+            frame.dispose();
+            homeFrame.setVisible(true);
+        });
+
+        //Logo
+        ImageIcon logo = new ImageIcon(App.class.getResource("/Images/Logo.png"));
+        Image scaled = logo.getImage().getScaledInstance(180,60,Image.SCALE_SMOOTH);
+        JLabel logoLabel = new JLabel(new ImageIcon(scaled));
+
+        //Profile Button
+        JButton profilebutton = new JButton("\uD83D\uDC64\uFE0E");
+        profilebutton.setFont(profilebutton.getFont().deriveFont(22f));
+        profilebutton.setPreferredSize(new Dimension(45,45));
+        profilebutton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        profilebutton.setFocusPainted(false);
+        profilebutton.setBorderPainted(false);
+        profilebutton.setContentAreaFilled(false);
+        profilebutton.setOpaque(false);
+        profilebutton.setForeground(Color.WHITE);
+        profilebutton.addActionListener(e -> {
+            frame.setVisible(false);
+            new ProfilePage(loggedInUser, userProgress, userManager, moduleManager, progressRepository, frame);
+        }); 
+
+        // Balance Icon
+        JLabel balanceLabel = new JLabel("$" + String.format("%.0f", loggedInUser.getBalance()));
+        balanceLabel.setForeground(Color.WHITE);
+        balanceLabel.setFont(balanceLabel.getFont().deriveFont(Font.BOLD, 40f));
+
+        // Icon Panel (This was built to keep Top Right Icons all right next to each other)
+        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        iconPanel.setOpaque(false);
+        settingbutton.setPreferredSize(new Dimension(38, 45));
+        profilebutton.setPreferredSize(new Dimension(38, 45));
+        iconPanel.add(settingbutton);
+        iconPanel.add(profilebutton);
+
+        // RightPanel Buttons (Displayed at the Top Right of the Page)
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT,2,0));
+        rightPanel.setOpaque(false);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
+        rightPanel.add(balanceLabel);
+        // For space between Balance and Icons
+        rightPanel.add(Box.createHorizontalStrut(100));
+        rightPanel.add(iconPanel);
+        
+        // Build Header
+        headerPanel.add(logoLabel, BorderLayout.WEST);
+        headerPanel.add(searchPanel, BorderLayout.CENTER);
+        headerPanel.add(rightPanel, BorderLayout.EAST);
+
+
+        //////////////// END OF HEADER SECTION /////////////
+        
         // Left Navigation
         JPanel navigationPanel = new JPanel(new BorderLayout());
         navigationPanel.setBackground(new Color(35, 35, 35));
-        navigationPanel.setPreferredSize(new Dimension(300, 700));
+        navigationPanel.setPreferredSize(new Dimension(250, 700));
         JLabel navigationTitle = new JLabel(" Learning Modules");
         navigationTitle.setForeground(Color.WHITE);
+        navigationTitle.setFont(navigationTitle.getFont().deriveFont(Font.BOLD, 18f));
+        navigationTitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 15, 12, 10));
         navigationPanel.add(navigationTitle, BorderLayout.NORTH);
         moduleTree = new JTree();
         moduleTree.setBackground(new Color(40, 40, 40));
         moduleTree.setForeground(Color.WHITE);
+        moduleTree.setRowHeight(26);
+        moduleTree.setFont(
+        moduleTree.getFont().deriveFont(15f));
+        moduleTree.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 8, 5, 8));
         JScrollPane treeScrollPane = new JScrollPane(moduleTree);
+        // Change JTree selection colors
+        JScrollBar verticalBar = treeScrollPane.getVerticalScrollBar();
+        verticalBar.setBackground(new Color(30, 30, 30));
+        verticalBar.setForeground(new Color(0, 120, 255));
+        JScrollBar horizontalBar = treeScrollPane.getHorizontalScrollBar();
+        horizontalBar.setBackground(new Color(30, 30, 30));
+        horizontalBar.setForeground(new Color(0, 120, 255));
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) moduleTree.getCellRenderer();
+        renderer.setLeafIcon(null);
+        renderer.setClosedIcon(null);
+        renderer.setOpenIcon(null);
+        renderer.setBackgroundSelectionColor(new Color(0, 120, 255));
+        renderer.setTextSelectionColor(Color.YELLOW);
+        renderer.setBackgroundNonSelectionColor(new Color(40, 40, 40));
+        renderer.setTextNonSelectionColor(Color.WHITE);
+        // Add to Panel
         navigationPanel.add(treeScrollPane, BorderLayout.CENTER);
 
         // Content Area
@@ -105,11 +240,13 @@ public class ModulesPage {
 
         // Split Pane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationPanel, contentScrollPane);
-        splitPane.setDividerLocation(300);
+        splitPane.setDividerLocation(250);
         splitPane.setResizeWeight(0.25);
 
         // Bottom Navigation
         JButton backButton =new JButton("Back to Home");
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(new Color(0, 120, 255));
         backButton.addActionListener(e -> {
             frame.dispose();
             homeFrame.setVisible(true);
@@ -119,6 +256,7 @@ public class ModulesPage {
         bottomPanel.add(backButton);
 
         // Build Page
+        frame.add(headerPanel, BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
         frame.add(bottomPanel,BorderLayout.SOUTH);
         loadModuleTree();
@@ -391,9 +529,16 @@ public class ModulesPage {
 
         // Rebuild Content Panel
         private void displayModule(LearningModule module) {
+                // Add Bordering
                 contentPanel.removeAll();
+                contentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 35, 20, 35));
+                // Create Title
                 JLabel title = new JLabel(module.getTitle());
+                title.setMaximumSize(new Dimension(Integer.MAX_VALUE, title.getPreferredSize().height));
                 title.setForeground(Color.WHITE);
+                title.setFont(title.getFont().deriveFont(Font.BOLD, 24f));
+                title.setHorizontalAlignment(SwingConstants.LEFT);
+                title.setAlignmentX(Component.LEFT_ALIGNMENT);
                 contentPanel.add(Box.createVerticalStrut(20));
                 contentPanel.add(title);
                 contentPanel.add(Box.createVerticalStrut(20));
@@ -419,7 +564,10 @@ public class ModulesPage {
                         contentPanel.add(unlockButton);
                 } else {
                         JLabel unlockedLabel = new JLabel("This module is unlocked.");
+                        unlockedLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, unlockedLabel.getPreferredSize().height));
                         unlockedLabel.setForeground(Color.WHITE);
+                        unlockedLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                        unlockedLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                         JTextArea descriptionArea = new JTextArea("Description: " + module.getDescription());
                         descriptionArea.setEditable(false);
                         descriptionArea.setLineWrap(true);
@@ -427,8 +575,12 @@ public class ModulesPage {
                         descriptionArea.setBackground(new Color(30, 30, 30));
                         descriptionArea.setForeground(Color.WHITE);
                         descriptionArea.setFont(descriptionArea.getFont().deriveFont(Font.BOLD, 18f));
+                        descriptionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
                         JLabel instructionLabel = new JLabel("Select an unlocked submodule from the left.");
+                        instructionLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, instructionLabel.getPreferredSize().height));
                         instructionLabel.setForeground(new Color(150, 150, 150));
+                        instructionLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                        instructionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                         contentPanel.add(unlockedLabel);
                         contentPanel.add(Box.createVerticalStrut(15));
                         contentPanel.add(descriptionArea);
@@ -438,6 +590,25 @@ public class ModulesPage {
                 contentPanel.revalidate();
                 contentPanel.repaint();
 
+        }
+        // Sleeker SearchBar Look
+        private static class RoundedBorder implements javax.swing.border.Border {
+                private final int radius;
+                RoundedBorder(int radius) {
+                 this.radius = radius;
+                }
+                @Override
+                public java.awt.Insets getBorderInsets(Component c) {
+                return new java.awt.Insets(radius / 2, radius / 2, radius / 2, radius / 2);
+                }
+                @Override
+                public boolean isBorderOpaque() {
+                return false;
+                }
+                @Override
+                public void paintBorder(Component c, java.awt.Graphics g, int x, int y, int width, int height) {
+                g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+                }
         }
          
 }
