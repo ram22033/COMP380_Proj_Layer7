@@ -1,4 +1,5 @@
 package layer8project;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -244,6 +245,9 @@ public class UserProgress {
      * otherwise {@code false}
      */
     public boolean isModuleFullyCompleted(LearningModule module) {
+        if (module.getSubModules().isEmpty()) {
+            return false;
+        }
         for (SubModule subModule : module.getSubModules()) {
             if (!isSubModuleFullyCompleted(subModule)) {
                 return false;
@@ -268,8 +272,24 @@ public class UserProgress {
         return ((double) completedQuestionIds.size() / totalQuestions) * 100;
     }
 
-    
-
+    /**
+     * Calculates the user's completion percentage for a specific module.
+     * 
+     * @param questions the questions contained in the module
+     * @return the percentage of questions completed
+     */
+    public double getModuleProgressPercentage(ArrayList<Question> questions) {
+        if (questions == null || questions.isEmpty()) {
+            return 0;
+        }
+        int completedQuestions = 0;
+        for (Question question : questions) {
+            if (completedQuestionIds.contains(question.getID())) {
+                completedQuestions++;
+            }
+        }
+        return ((double) completedQuestions / questions.size()) * 100;
+    }
 
 
 }

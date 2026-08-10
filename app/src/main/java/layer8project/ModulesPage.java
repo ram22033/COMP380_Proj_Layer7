@@ -45,28 +45,7 @@ import javax.swing.tree.DefaultTreeModel;
  */
 
 public class ModulesPage {
-        private static class ScrollablePanel extends JPanel implements javax.swing.Scrollable {
-                @Override
-                public Dimension getPreferredScrollableViewportSize() {
-                        return getPreferredSize();
-                }
-                @Override
-                public int getScrollableUnitIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
-                        return 16;
-                }
-                @Override
-                public int getScrollableBlockIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
-                        return 100;
-                }
-                @Override
-                public boolean getScrollableTracksViewportWidth() {
-                        return true;
-                }
-                @Override
-                public boolean getScrollableTracksViewportHeight() {
-                        return false;
-                }
-        }
+
 
     private final User loggedInUser;
     private final UserProgress userProgress;
@@ -121,6 +100,8 @@ public class ModulesPage {
         contentScrollPane.setBorder(null);
         contentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         contentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        contentScrollPane.setBackground(new Color(30, 30, 30));
+        contentScrollPane.getViewport().setBackground(new Color(30, 30, 30));
 
         // Split Pane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationPanel, contentScrollPane);
@@ -145,8 +126,34 @@ public class ModulesPage {
         displayModule(selectedModule);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-}
 
+}
+        // Scroll Panel helper
+        private static class ScrollablePanel extends JPanel implements javax.swing.Scrollable {
+                @Override
+                public Dimension getPreferredScrollableViewportSize() {
+                        return getPreferredSize();
+                }
+                @Override
+                public int getScrollableUnitIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
+                        return 16;
+                }
+                @Override
+                public int getScrollableBlockIncrement(java.awt.Rectangle visibleRect, int orientation, int direction) {
+                        return 100;
+                }
+                @Override
+                public boolean getScrollableTracksViewportWidth() {
+                        return true;
+                }
+                @Override
+                public boolean getScrollableTracksViewportHeight() {
+                        return false;
+                }
+        }
+
+        ///////////////// HELPERS ///////////////////
+        
         ///////// Loading Module Tree ///////
         private void loadModuleTree(){
                 DefaultMutableTreeNode root = new DefaultMutableTreeNode("Modules");
@@ -432,5 +439,5 @@ public class ModulesPage {
                 contentPanel.repaint();
 
         }
-        
+         
 }
