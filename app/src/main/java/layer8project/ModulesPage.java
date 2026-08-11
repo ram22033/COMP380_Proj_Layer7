@@ -544,11 +544,11 @@ public class ModulesPage {
                 contentPanel.add(Box.createVerticalStrut(20));
                 boolean unlocked = userProgress.isModuleUnlocked(module.getModuleID());
                 if (!unlocked) {
-                        JLabel lockedLabel = new JLabel("This module is currently locked.");
+                        JLabel lockedLabel = new JLabel("This module is currently locked. Purchase for $" + module.getUnlockPrice());
                         lockedLabel.setForeground(new Color(150, 150, 150));
                         contentPanel.add(lockedLabel);
                         contentPanel.add(Box.createVerticalStrut(20));
-                        JButton unlockButton = new JButton("Unlock Module");
+                        JButton unlockButton = new JButton("Purchase Module");
                         unlockButton.addActionListener(e -> {
                                 boolean success = moduleManager.purchaseModule(loggedInUser, userProgress, module);
                                 if (success) {
